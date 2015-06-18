@@ -28,5 +28,7 @@
   "dependencies": {
     "angular": "~1.2.28"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "requirejs": "~2.1.18"
+  }
 }

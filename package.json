@@ -25,5 +25,10 @@
   "bugs": {
     "url": "https://github.com/OrdnanceSurvey/os-search/issues"
   },
-  "homepage": "https://github.com/OrdnanceSurvey/os-search"
+  "homepage": "https://github.com/OrdnanceSurvey/os-search",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-requirejs": "^0.4.4",
+    "grunt-contrib-watch": "^0.6.1"
+  }
 }
