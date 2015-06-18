@@ -1,0 +1,29 @@
+{
+  "name": "os-search",
+  "version": "0.0.1",
+  "description": "AngularJS implementation of a flexible search box by OS Elements",
+  "main": "dist/os-search.min.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OrdnanceSurvey/os-search.git"
+  },
+  "keywords": [
+    "Ordnance Survey",
+    "OS",
+    "angularjs",
+    "search",
+    "os-search"
+  ],
+  "author": "Craig Snyders <craig@snyders.co.uk>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/OrdnanceSurvey/os-search/issues"
+  },
+  "homepage": "https://github.com/OrdnanceSurvey/os-search"
+}
