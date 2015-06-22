@@ -6,25 +6,22 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         requirejs: {
+            options: {
+                baseUrl: 'src',
+                name: 'os-search',
+                exclude: ['angular'],
+                mainConfigFile: 'src/requirejs-main.js',
+                stubModules : ['text'],
+                insertRequire: ['os-search']
+            },
             'dist-minified': {
                 options: {
-                    name: 'src/os-search',
                     out: 'dist/<%= pkg.name %>.min.js',
-                    exclude: ['angular'],
-                    paths: {
-                        angular: 'bower_components/angular/angular'
-                    }
                 }
             },
             'dist-unminified': {
                 options: {
-                    baseUrl: 'src',
-                    name: 'os-search',
                     out: 'dist/<%= pkg.name %>.js',
-                    exclude: ['angular'],
-                    paths: {
-                        angular: '../bower_components/angular/angular'
-                    },
                     optimize: 'none'
                 }
             }
