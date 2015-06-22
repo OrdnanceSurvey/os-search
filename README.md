@@ -9,10 +9,10 @@ Coming soon!
 ## Installation
 Project files are available through Bower:
 ```bash
-bower install os.search
+bower install os-search
 ```
 
-In your project, add `os.search` as an AngularJS module dependency:
+In your project, add `os-search` as an AngularJS module dependency:
 ```javascript
-angular.module('myModule', ['os.search']);
+angular.module('myModule', ['os-search']);
 ```
