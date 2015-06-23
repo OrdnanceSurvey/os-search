@@ -1,4 +1,4 @@
-define(['angular', '../dist/os-search.min'], function(angular) {
+define(['angular', 'os-search-templates'], function(angular) {
     var app = angular.module('tiny-app', ['os-search']);
 
     app.controller('my-ctrl', ['$scope', function($scope) {

@@ -28,7 +28,11 @@
   "homepage": "https://github.com/OrdnanceSurvey/os-search",
   "devDependencies": {
     "grunt": "^0.4.5",
+    "grunt-angular-templates": "^0.5.7",
+    "grunt-concurrent": "^2.0.0",
+    "grunt-contrib-less": "^1.0.1",
     "grunt-contrib-requirejs": "^0.4.4",
-    "grunt-contrib-watch": "^0.6.1"
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-timer": "^0.6.0"
   }
 }
