@@ -11,22 +11,16 @@ Live demo coming soon!
 
 Project files are available through Bower:
 ```
-bower install os-search
+bower install os-search --save-dev
 ```
 
-
-
-### AMD dependencies
-os-search expects 'angular' to be loaded and available as an AMD module.  Take a look at the example folder, or add this to your requirejs paths config:
-```javascript
-requirejs.config({
-    paths: {
-        angular: '../bower_components/angular/angular.min'
-    },
-    shim: {
-        angular: { exports: 'angular' } // tell RequireJS that AngularJS exports a global property named 'angular'
-    }
-});
+### Dependencies
+Include os-search.js before [`angular`](https://github.com/angular/angular.js) and [`rx`](https://github.com/Reactive-Extensions/RxJS).
+Include os-search-templates.js after os-search.js.  If you want, you can override the template by injecting your own HTML into angular's $templateCache with they key 'templates/os-search.html' and leaving out os-search-templates.js
+```html
+<script src="angular.js"></script>
+<script src="rx.js"></script>
+<script src="bower_components/os-search/dist/os-search.js"></script><!-- load os-search after angular and rx.js -->
 ```
 
 
@@ -35,5 +29,38 @@ requirejs.config({
 angular.module('myModule', ['os-search']);
 ```
 
+### RequireJS
+You can easily use os-search with RequireJS.  Take a look at the [example](example-requirejs/config.js), or make youre requirejs config look like this:
+```javascript
+requirejs({
+    paths: {
+        'angular': '../bower_components/angular/angular',
+        'rx': '../bower_components/rxjs/dist/rx.all',
+        'os-search': '../dist/os-search',
+        'os-search-templates': '../dist/os-search-templates'
+    },
+    shim: {
+        'angular': {
+            exports: 'angular' // tell requirejs that angular exports a global
+        },
+        'os-search-templates': {
+            deps: ['angular', 'os-search'] // make sure os-search module is loaded before the templates
+        },
+        'os-search': {
+            deps: ['angular']
+        }
+    }
+});
+
+define('app', ['angular', 'os-search', 'os-search-templates'], function(angular) {
+
+    var app = angular.module('my-app', ['os-search']);
+
+    // ...
+});
+
+```
+
 ### IE8 compatibility
-Your application must manually include [Placeholders.js](https://github.com/jamesallardice/Placeholders.js/) if you wish to polyfill the HTML5 placeholder attribute
+Older browsers need polyfills for some functionality.  We recommend using [Placeholders.js](https://github.com/jamesallardice/Placeholders.js/) for polyflling HTML5 placeholder attribute.
+`bower install placeholders --save-dev`
