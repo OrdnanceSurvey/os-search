@@ -1,1 +1,11 @@
-<input class="os-search" type="text" autocomplete="on" placeholder="qwerty" />
+<input class="os-search" type="search" autocomplete="on" placeholder="Start typing to search..."
+       ng-model="searchInput"/>
+<div class="os-search-results" ng-show="isOneOrMoreSearchInProgress() || isOneOrMoreSearchResultAvailable()">
+    <div ng-repeat="results in searchResultsOrderedByTime">
+        <div class="os-search-result-header">{{searchProviders[results.providerId].title}}</div>
+        <div class="os-search-result" ng-repeat="result in results">
+            <p ng-if="result.name">{{result.name}} <span ng-if="result.locality">, {{result.locality}}</span></p>
+            <p ng-if="result.error" title="{{result.error}}">Error</p>
+        </div>
+    </div>
+</div>

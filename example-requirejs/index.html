@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" type="text/css"/>
+    <link rel="stylesheet" href="../dist/os-search.css" type="text/css" />
+
+    <style>
+        body {
+            background: #ACFFDF;
+        }
+        header {
+            padding: 20px;
+            border-bottom: 3px solid rgba(0,0,0,0.2);
+        }
+
+        section {
+            padding: 20px;
+        }
+
+        .container {
+            width: 1024px;
+            box-sizing: border-box;
+            margin: 0 auto;
+            background: rgba(0,0,0,0.1);
+        }
+    </style>
+
+</head>
+<body ng-controller="my-ctrl">
+<header class="container">
+    <h1>os-search example</h1>
+    <p>make sure you have installed the devDependencies for os-search:</p>
+    <pre>bower install --production=false</pre>
+    <pre>$scope.message: '{{message}}'</pre>
+</header>
+<section class="container">
+    <div os-search="search"></div>
+</section>
+<script type="text/javascript" src="../bower_components/requirejs/require.js" data-main="requirejs-main.js"></script>
+</body>
+</html>

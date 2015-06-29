@@ -2,7 +2,7 @@
 AngularJS implementation of a flexible search box, by OS Elements
 
 ## Demo
-example/index.html
+example-requirejs/index.html
 
 Live demo coming soon!
 
@@ -34,3 +34,6 @@ requirejs.config({
 ```javascript
 angular.module('myModule', ['os-search']);
 ```
+
+### IE8 compatibility
+Your application must manually include [Placeholders.js](https://github.com/jamesallardice/Placeholders.js/) if you wish to polyfill the HTML5 placeholder attribute

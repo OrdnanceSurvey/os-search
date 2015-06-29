@@ -2,14 +2,18 @@ requirejs({
     paths: {
         'angular': '../bower_components/angular/angular',
         'os-search': '../dist/os-search',
-        'os-search-templates': '../dist/os-search-templates'
+        'os-search-templates': '../dist/os-search-templates',
+        'rx': '../bower_components/rxjs/dist/rx.all'
     },
     shim: {
         'angular': {
             exports: 'angular'
         },
         'os-search-templates': {
-            deps: ['os-search']
+            deps: ['angular', 'os-search']
+        },
+        'os-search': {
+            deps: ['angular']
         }
     }
 });

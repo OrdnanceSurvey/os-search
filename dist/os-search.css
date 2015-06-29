@@ -1,4 +1,28 @@
-.os-search {
+input.os-search[type=search] {
+  padding: 10px;
+  font-size: 18px;
+  font-weight: 300;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  -o-border-radius: 0px;
+  border-radius: 0px;
+}
+.os-search-results {
+  background-color: #ffffff;
+  display: table;
   padding: 20px;
-  background-color: orange;
+}
+.os-search-results > div {
+  display: inline-block;
+  vertical-align: top;
+}
+.os-search-results > div + div {
+  margin-left: 20px;
+}
+.os-search-result-header {
+  font-weight: 700;
+  border-bottom: 1px solid orange;
+}
+.os-search-result:hover {
+  background-color: #cccccc;
 }

@@ -1,4 +1,38 @@
-.os-search {
+.border-radius(...) {
+  -webkit-border-radius: @arguments;
+  -moz-border-radius: @arguments;
+  -o-border-radius: @arguments;
+  border-radius: @arguments;
+}
+
+input.os-search[type=search] {
+  padding: 10px;
+  font-size: 18px;
+  font-weight: 300;
+  .border-radius(0px);
+}
+.os-search-results {
+  background-color: #ffffff;
+  display: table;
   padding: 20px;
-  background-color: orange;
+
+  > div {
+    display: inline-block;
+    vertical-align: top;
+
+    + div {
+      margin-left: 20px;
+    }
+  }
+}
+
+.os-search-result-header {
+  font-weight: 700;
+  border-bottom: 1px solid orange;
+}
+
+.os-search-result {
+  &:hover {
+    background-color: #cccccc;
+  }
 }
