@@ -1,12 +1,15 @@
 requirejs({
     paths: {
         'angular': '../bower_components/angular/angular',
+        'jquery': '../bower_components/jquery/dist/jquery',
+
+        'rx': '../bower_components/rxjs/dist/rx.all',
         'os-search': '../dist/os-search',
-        'os-search-templates': '../dist/os-search-templates',
-        'rx': '../bower_components/rxjs/dist/rx.all'
+        'os-search-templates': '../dist/os-search-templates'
     },
     shim: {
         'angular': {
+            deps: ['jquery'],
             exports: 'angular'
         },
         'os-search-templates': {

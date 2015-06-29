@@ -30,12 +30,12 @@ angular.module('myModule', ['os-search']);
 ```
 
 ### RequireJS
-You can easily use os-search with RequireJS.  Take a look at the [example](example-requirejs/config.js), or make youre requirejs config look like this:
+You can easily use os-search with RequireJS.  Take a look at the [example](example-requirejs/config.js), or make your requirejs config look like this:
 ```javascript
 requirejs({
     paths: {
         'angular': '../bower_components/angular/angular',
-        'rx': '../bower_components/rxjs/dist/rx.all',
+        'rx': '../bower_components/rxjs/dist/rx.all', // bower install rxjs --save-dev
         'os-search': '../dist/os-search',
         'os-search-templates': '../dist/os-search-templates'
     },

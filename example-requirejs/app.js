@@ -2,10 +2,32 @@ define('app', ['angular', 'os-search', 'os-search-templates'], function(angular)
 
     var app = angular.module('tiny-app', ['os-search']);
 
-    app.controller('my-ctrl', ['$scope', function($scope) {
-        $scope.message = 'Hello World!';
+    app.directive('jsonText', function() {
+        return {
+            restrict: 'A',
+            require: 'ngModel',
+            link: function(scope, elem, attr, ngModel) {
+                function into(input) {
+                    return JSON.parse(input);
+                }
+                function out(data) {
+                    return JSON.stringify(data,null,4);
+                }
+                ngModel.$parsers.push(into);
+                ngModel.$formatters.push(out);
 
-        $scope.search = {
+                scope.$watch('search', function(newVal) {
+                    while(elem.outerHeight() < elem[0].scrollHeight + parseFloat(elem.css("borderTopWidth")) + parseFloat(elem.css("borderBottomWidth"))) {
+                        elem.height(elem.height()+1);
+                    }
+                });
+            }
+        };
+    });
+
+    app.controller('my-ctrl', ['$scope', function($scope) {
+
+        $scope.searchConfig = {
             providers: [
                 {
                     id: 'NAMES',
@@ -13,7 +35,7 @@ define('app', ['angular', 'os-search', 'os-search-templates'], function(angular)
                     params: {
                         q: '%s'
                     },
-                    url: '/mapmaker/api/search/names',
+                    url: '/api/search/names',
                     title: 'Places'
                 },
                 {
@@ -22,7 +44,7 @@ define('app', ['angular', 'os-search', 'os-search-templates'], function(angular)
                     params: {
                         q: '%s'
                     },
-                    url: '/mapmaker/api/search/addresses',
+                    url: '/api/search/addresses',
                     title: 'Addresses'
                 }
             ]

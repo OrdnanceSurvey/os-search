@@ -23,6 +23,11 @@
             margin: 0 auto;
             background: rgba(0,0,0,0.1);
         }
+
+        .panel {
+            border: 1px solid rgba(0,0,0,0.1);
+            padding: 1em;
+        }
     </style>
 
 </head>
@@ -30,12 +35,15 @@
 <header class="container">
     <h1>os-search example</h1>
     <p>make sure you have installed the devDependencies for os-search:</p>
-    <pre>bower install --production=false</pre>
-    <pre>$scope.message: '{{message}}'</pre>
+    <pre class="panel">bower install --production=false</pre>
+    <p>Use the directive in yout HTML:</p>
+    <pre class="panel">&lt;div os-search="searchConfig"&gt;&lt;/div&gt;</pre>
+    <p>Set your provider config on the scope object you referenced:</p>
+    <pre class="panel">$scope.searchConfig = {{searchConfig | json}};</pre>
 </header>
 <section class="container">
-    <div os-search="search"></div>
+    <div os-search="searchConfig"></div>
 </section>
-<script type="text/javascript" src="../bower_components/requirejs/require.js" data-main="requirejs-main.js"></script>
+<script type="text/javascript" src="../bower_components/requirejs/require.js" data-main="config.js"></script>
 </body>
 </html>
