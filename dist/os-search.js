@@ -489,9 +489,9 @@ var osSearchDirective = function osSearchDirective(observeOnScope, $http, rx, $t
 
             $scope.options = $scope.options || {};
             $scope.options.providers = $scope.options.providers || [];
+            $scope.options.placeholder = $scope.options.hasOwnProperty('placeholder') ? $scope.options.placeholder : 'Start typing to search';
 
             $scope.searchResults = {};
-            $scope.searchInProgress = {};
 
             // turn $scope.options.providers into an object hashMap, with provider.id as the key
             $scope.searchProviders = $scope.options.providers.reduce(function (providerHashMap, provider) {
@@ -504,6 +504,7 @@ var osSearchDirective = function osSearchDirective(observeOnScope, $http, rx, $t
                 var config = {
                     params: angular.copy(provider.params),
                     data: angular.copy(provider.data),
+                    dataType: provider.dataType,
                     url: provider.url,
                     method: provider.method
                 };
@@ -524,11 +525,8 @@ var osSearchDirective = function osSearchDirective(observeOnScope, $http, rx, $t
 
                 return rx.Observable.create(function(observer) {
                     try {
-                        setTimeout(function() {
-                            observer.onNext(fn.call(this, term));
-                            observer.onCompleted();
-                        }, 1000);
-
+                        observer.onNext(fn.call(this, term));
+                        observer.onCompleted();
                     } catch (e) {
                         console.error( e);
                         observer.onError(e);
@@ -548,7 +546,10 @@ var osSearchDirective = function osSearchDirective(observeOnScope, $http, rx, $t
             // create an rx.Observable from the user input changes
             var throttledInput = observeOnScope($scope, 'searchInput').debounce(200).map(function (e) {
                 return e.newValue;
-            }).filter(function (term) {
+            }).distinctUntilChanged(); // ignore duplicate searches if value didn't change since last search
+
+            // fire off requests to providers based on throttled search term
+            throttledInput.filter(function (term) {
                 // reset the search results for each provider whenever input changes
                 $scope.options.providers.forEach(function (provider) {
                     $scope.searchResults[provider.id] = $scope.searchResults[provider.id] || {};
@@ -558,13 +559,9 @@ var osSearchDirective = function osSearchDirective(observeOnScope, $http, rx, $t
 
                 // only search on 3+ characters
                 return term && term.length && term.length > 2;
-            }).distinctUntilChanged(); // ignore duplicate searches if value didn't change since last search
-
-            // fire off requests to providers based on throttled search term
-            throttledInput.subscribe(function (term) {
+            }).subscribe(function (term) {
 
                 var observables = $scope.options.providers.map(function(provider) {
-
                     $timeout(function() {
                         $scope.searchResults[provider.id].inProgress = true;
                         $scope.searchResults[provider.id].results = [];
@@ -572,19 +569,14 @@ var osSearchDirective = function osSearchDirective(observeOnScope, $http, rx, $t
                         $scope.searchResults[provider.id].received = Infinity;
                     });
 
-
                     var providerObservable = createProviderObservable(provider, term);
                     providerObservable.providerId = provider.id;
                     providerObservable.term = term;
                     providerObservable.sent = new Date();
                     providerObservable.config = provider;
-
                     return providerObservable;
                 });
 
-                //if (!$scope.$$phase) {
-                //    $scope.$digest();
-                //}
 
                 observables.forEach(function(providerObservable) {
                     providerObservable.subscribe(function (response) {
@@ -617,44 +609,34 @@ var osSearchDirective = function osSearchDirective(observeOnScope, $http, rx, $t
                         $scope.searchResults[providerObservable.providerId].inProgress = false;
                         $scope.searchResults[providerObservable.providerId].results = [];
                         $scope.searchResults[providerObservable.providerId].error = error.data.error || error.data; // TODO check this logic with a real server error
-                        //$scope.searchResults[providerObservable.providerId].received = new Date();
-                        $scope.searchResults[providerObservable.providerId].received = Infinity; // needs to be infinity so that we can sort errors to the right
+                        $scope.searchResults[providerObservable.providerId].received = Infinity; // needs to be Infinity so that we can sort errors to the right
                         $scope.searchResults[providerObservable.providerId].sent = providerObservable.sent; // TODO check this is available
 
                     });
                 });
             });
 
-            $scope.isOneOrMoreSearchInProgress = function isOneOrMoreSearchInProgress() {
-                for (var k in $scope.searchInProgress) {
-                    if (!!$scope.searchInProgress[k]) {
-                        return true;
-                    }
+            $scope.resultsAvailable = function resultsAvailable() {
+                return $scope.options.providers.filter(function(provider) {
+                    var sr = $scope.searchResults[provider.id];
+                    return sr.inProgress || sr.error || sr.results.length > 0;
+
+                }).length > 0;
+            };
+
+            // search results visible when false
+            $scope.searchHidden = false;
+
+            // hide the search results
+            $scope.hideSearch = function hideSearch() {
+                $scope.searchHidden = true;
+            };
+
+            // call onSelect function if provided.  Pass the hideSearch handler so the function may call it
+            $scope.selectResult = function selectResult(result, cb) {
+                if (cb) {
+                    cb.call(null, result, $scope.hideSearch);
                 }
-                return false;
-            };
-
-            // true if any results are available
-            $scope.isOneOrMoreSearchResultAvailable = function isOneOrMoreSearchResultAvailable() {
-                return $scope.searchResultsOrderedByTime.filter(function (e) {
-                        return e.length > 0 && !e.inProgress;
-                    }).length > 0;
-            };
-
-            $scope.clearSearch = function clearSearch() {
-
-                $scope.options.providers.forEach(function(provider) {
-                    $scope.searchResults[provider.id].inProgress = false;
-                    $scope.searchResults[provider.id].results = [];
-                    $scope.searchResults[provider.id].error = undefined;
-                });
-
-                $scope.searchInput = '';
-            };
-
-            $scope.selectResult = function selectResult(result) {
-                console.log('result selected: ', result);
-                $scope.clearSearch();
             };
         }
     };

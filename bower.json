@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "requirejs": "~2.1.18",
-    "angular-order-object-by": "~1.1.1"
+    "angular-order-object-by": "~1.1.1",
+    "geodesy": "git://github.com/chrisveness/geodesy.git#~1.0.2"
   }
 }

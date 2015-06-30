@@ -29,19 +29,25 @@ angular.module('myModule', ['os-search']);
 ```
 
 ## Configuration
-Supports function or AJAX.
+os-search can be configured to use any AJAX or Function based provider, just remember to transform the results to match the supported JSON format (see next point).
 ```javascript
 $scope.searchConfig = {
+    placeholder: 'Type to search...',
     providers: [
-        {
+        {   // AJAX based provider
             id: 'NAMES',
             method: 'GET',
-            params: {
-                q: '%s'
+            params: { // put an object here to send as query parameters
+                q: '%s' // %s is a special value - it will be replaced with the user's search query
             },
             url: '/api/search/names',
-            title: 'Places'
-        }, {
+            title: 'Places', // friendly name to display
+            data: undefined,  // when doing a POST, put an object here to send as form data
+            onSelect: function(result, hideSearch) {
+                console.log('got result: ' + JSON.stringify(result));
+                hideSearch();
+            }
+        }, {// Function based provider
             id: 'ECHO_UPPERCASE',
             title: 'Echo',
             fn: function(term) {
@@ -59,9 +65,14 @@ $scope.searchConfig = {
                 // return an object with a results property containing the array
                 return {
                     results: response.map(function(e) {
-                        return e + '!'; // add an exclamation mark to each result!
+                        e.text = e.text + '!'; // add an exclamation mark to each result!
+                        return e;
                     })
                 };
+            },
+            onSelect: function(result, hideSearch) {
+                console.log('got result: ' + JSON.stringify(result));
+                hideSearch();
             }
         }
     ]
@@ -69,6 +80,19 @@ $scope.searchConfig = {
 ```
 ```html
 <div os-search="searchConfig"></div>
+```
+
+### Search results JSON format
+```javascript
+{
+    results: [{
+        text: 'result 1'
+    }, {
+        text: 'result 2'
+    }, {
+        text: 'result 3
+    }]
+}
 ```
 
 ### RequireJS

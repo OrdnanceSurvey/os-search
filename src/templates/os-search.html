@@ -1,21 +1,25 @@
 <input class="os-search"
        type="search"
        autocomplete="on"
-       placeholder="Start typing to search..."
-       ng-model="searchInput"/>
-<div class="os-search-results" ng-show="searchInput.length > 2">
-    <div ng-repeat="data in searchResults | orderObjectBy:'received'">
-        <div class="os-search-result-header">{{searchProviders[data.providerId].title}}</div>
-        <div class="os-search-result" ng-if="data.inProgress">
+       placeholder="{{options.placeholder}}"
+       ng-model="searchInput"
+       ng-focus="searchHidden = false"/>
+<div class="os-search-results" ng-show="searchInput.length > 2 && !searchHidden && resultsAvailable()">
+    <div ng-repeat="column in searchResults | orderObjectBy:'received'" ng-if="column.error || column.inProgress || column.results.length > 0">
+        <div class="os-search-result-header">{{searchProviders[column.providerId].title}}</div>
+
+        <div class="os-search-result" ng-if="column.inProgress">
             <p>In progress...</p>
         </div>
-        <div class="os-search-result" ng-if="data.error">
+
+        <div class="os-search-result" ng-if="column.error">
             <p>Error</p>
         </div>
+
         <div class="os-search-result"
-             ng-if="data.results"
-             ng-repeat="result in data.results"
-             ng-click="selectResult(result)">
+             ng-if="column.results"
+             ng-repeat="result in column.results"
+             ng-click="selectResult(result, searchProviders[column.providerId].onSelect)">
             <p ng-if="result.text">{{result.text}}</p>
         </div>
     </div>

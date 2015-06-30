@@ -28,15 +28,18 @@ define('app', ['angular', 'os-search', 'os-search-templates'], function(angular)
     app.controller('my-ctrl', ['$scope', function($scope) {
 
         $scope.searchConfig = {
+            placeholder: 'Search',
             providers: [
                 //{
-                //    id: 'PLACES',
-                //    method: 'GET',
-                //    params: {
-                //        q: '%s'
+                //    id: 'WIKI',
+                //    data: {
+                //        action: 'opensearch',
+                //        format: 'json',
+                //        search: '%s'
                 //    },
-                //    url: '/api/search/places',
-                //    title: 'Places'
+                //    dataType: 'jsonp',
+                //    url: 'http://en.wikipedia.org/w/api.php',
+                //    title: 'Wikipedia'
                 //},
                 {
                     id: 'ECHO_UPPERCASE',
@@ -57,6 +60,10 @@ define('app', ['angular', 'os-search', 'os-search-templates'], function(angular)
                         return {
                             results: response
                         };
+                    },
+                    onSelect: function(result, hideSearch) {
+                        console.log('selected an UPPERCASE result', result);
+                        hideSearch();
                     }
                 }
             ]
