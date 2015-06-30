@@ -1,11 +1,24 @@
 <input class="os-search" type="search" autocomplete="on" placeholder="Start typing to search..."
        ng-model="searchInput"/>
-<div class="os-search-results" ng-show="isOneOrMoreSearchInProgress() || isOneOrMoreSearchResultAvailable()">
-    <div ng-repeat="results in searchResultsOrderedByTime">
-        <div class="os-search-result-header">{{searchProviders[results.providerId].title}}</div>
-        <div class="os-search-result" ng-repeat="result in results">
+<!--<div class="os-search-results" ng-show="isOneOrMoreSearchInProgress() || isOneOrMoreSearchResultAvailable()">-->
+<div class="os-search-results" ng-show="searchInput.length > 2">
+    <!--<div ng-repeat="(id, results) in searchResultsOrderedByTime">-->
+        <!--<div class="os-search-result-header">{{searchProviders[results.providerId].title}}</div>-->
+        <!--<div class="os-search-result" ng-repeat="result in results">-->
+            <!--<p ng-if="result.name">{{result.name}} <span ng-if="result.locality">, {{result.locality}}</span></p>-->
+            <!--<p ng-if="result.error">Error</p>-->
+        <!--</div>-->
+    <!--</div>-->
+    <div ng-repeat="(id, data) in searchResults">
+        <div class="os-search-result-header">{{searchProviders[id].title}}</div>
+        <div class="os-search-result" ng-show="data.inProgress">
+            <p>In progress...</p>
+        </div>
+        <div class="os-search-result" ng-repeat="result in data.results">
             <p ng-if="result.name">{{result.name}} <span ng-if="result.locality">, {{result.locality}}</span></p>
-            <p ng-if="result.error" title="{{result.error}}">Error</p>
+            <p ng-if="result.error">Error</p>
         </div>
     </div>
 </div>
+<!--<pre>{{searchResultsOrderedByTime | json}}</pre>-->
+<pre>{{searchResults | json}}</pre>

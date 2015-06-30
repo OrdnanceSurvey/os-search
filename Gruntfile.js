@@ -16,7 +16,7 @@ module.exports = function (grunt) {
 
         concat: {
             dist: {
-                src: ['bower_components/angular-rx/dist/rx.angular.js', 'src/os-search.js', '!src/controllers/os-search-controller.js', 'src/directives/os-search-directive.js'],
+                src: ['bower_components/angular-rx/dist/rx.angular.js', 'bower_components/angular-order-object-by/src/ng-order-object-by.js', 'src/os-search.js', '!src/controllers/os-search-controller.js', 'src/directives/os-search-directive.js'],
                 dest: 'dist/os-search.js',
                 nonull: true
             }

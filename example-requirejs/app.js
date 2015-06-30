@@ -29,23 +29,39 @@ define('app', ['angular', 'os-search', 'os-search-templates'], function(angular)
 
         $scope.searchConfig = {
             providers: [
+                //{
+                //    id: 'PLACES',
+                //    method: 'GET',
+                //    params: {
+                //        q: '%s'
+                //    },
+                //    url: '/api/search/places',
+                //    title: 'Places'
+                //},
                 {
-                    id: 'NAMES',
-                    method: 'GET',
-                    params: {
-                        q: '%s'
-                    },
-                    url: '/api/search/names',
-                    title: 'Places'
-                },
-                {
-                    id: 'ADDRESSES',
-                    method: 'GET',
-                    params: {
-                        q: '%s'
-                    },
-                    url: '/api/search/addresses',
-                    title: 'Addresses'
+                    id: 'ECHO_UPPERCASE',
+                    title: 'Convert to uppercase',
+                    fn: function(term) {
+                        var upper = term;
+                        try {
+                            upper = term.toUpperCase();
+                        } catch (e) {}
+                        //return {
+                        //    config: {
+                        //        providerId: 'ECHO_UPPERCASE'
+                        //    },
+                        //    data: [{
+                        //        name: upper,
+                        //        type: 'who knows'
+                        //    }]
+                        //};
+                        return {
+                            results: [{
+                                name: upper,
+                                type: 'who knows'
+                            }]
+                        }
+                    }
                 }
             ]
         };

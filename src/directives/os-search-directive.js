@@ -11,31 +11,7 @@ var osSearchDirective = function osSearchDirective(observeOnScope, $http, rx) {
             $scope.options.providers = $scope.options.providers || [];
 
             $scope.searchResults = {};
-            $scope.searchResultsOrderedByTime = [];
             $scope.searchInProgress = {};
-
-            console.log(elem.children.length);
-
-            //var SEARCH_PROVIDERS = [
-            //    {
-            //        id: 'NAMES',
-            //        method: 'GET',
-            //        params: {
-            //            q: '%s'
-            //        },
-            //        url: '/mapmaker/api/search/names',
-            //        title: 'Places'
-            //    },
-            //    {
-            //        id: 'ADDRESSES',
-            //        method: 'GET',
-            //        params: {
-            //            q: '%s'
-            //        },
-            //        url: '/mapmaker/api/search/addresses',
-            //        title: 'Addresses'
-            //    }
-            //];
 
             $scope.searchProviders = $scope.options.providers.reduce(function (providerHashMap, provider) {
                 providerHashMap[provider.id] = provider;
@@ -43,7 +19,7 @@ var osSearchDirective = function osSearchDirective(observeOnScope, $http, rx) {
             }, {}); // turn $scope.options.providers into an object hashMap, with provider.id as the key
 
             // turn search provider JSON into an rx.Observable, with a URL including the search term
-            var createSearchProviderObservable = function createSearchProviderObservable(provider, term) {
+            var observableWithAJAXConfig = function observableWithAJAXConfig(provider, term) {
                 if (Object.prototype.toString.call(provider) !== '[object Object]') {
                     throw new Error('Search provider required.');
                 }
@@ -66,94 +42,100 @@ var osSearchDirective = function osSearchDirective(observeOnScope, $http, rx) {
                 return rx.Observable.fromPromise($http(config));
             };
 
+            var observableFromFn = function observableFromFn(fn, term) {
+                //return rx.Observable.fromCallback(fn)(term);
+
+                return rx.Observable.create(function(observer) {
+                    try {
+                        setTimeout(function() {
+                            observer.onNext(fn.call(this, term));
+                            observer.onCompleted();
+                        }, 1000);
+
+                    } catch (e) {
+                        console.error( e);
+                        observer.onError(e);
+                    }
+                });
+            };
+
+            var createProviderObservable = function createProviderObservable(provider, term) {
+                // check if provider is 'function' type
+                if (provider.hasOwnProperty('fn')) {
+                    return observableFromFn(provider.fn, term);
+                } else { // else assume provider is 'AJAX' type
+                    return observableWithAJAXConfig(provider, term);
+                }
+            };
+
             // create an rx.Observable from the user input changes
-            var throttledInput = observeOnScope($scope, 'searchInput').debounce(500).map(function (e) {
+            var throttledInput = observeOnScope($scope, 'searchInput').debounce(200).map(function (e) {
                 return e.newValue;
             }).filter(function (term) {
-
-                // only search on 3+ characters
-                var ok = term && term.length && term.length > 2;
-
-                // reset the search results whenever input changes
-                $scope.options.providers.forEach(function (e) {
-                    $scope.searchResults[e.id] = [{
-                        name: 'In progress'
-                    }];
-                    $scope.searchResults[e.id].providerId = e.id;
-                    $scope.searchResults[e.id].inProgress = true;
-                    $scope.searchInProgress[e.id] = ok;
+                // reset the search results for each provider whenever input changes
+                $scope.options.providers.forEach(function (provider) {
+                    $scope.searchResults[provider.id] = $scope.searchResults[provider.id] || {};
+                    $scope.searchResults[provider.id].results = [];
                 });
 
-                return ok;
+                // only search on 3+ characters
+                return term && term.length && term.length > 2;
             }).distinctUntilChanged(); // ignore duplicate searches if value didn't change since last search
 
-
+            // fire off requests to providers based on throttled search term
             throttledInput.subscribe(function (term) {
-                $scope.options.providers.forEach(function (e) {
-                    $scope.searchResults[e.id] = []; // don't display out of date results to the user
 
-                    // create observable of the provider AJAX, then update scope on change
-                    createSearchProviderObservable(e, term).subscribe(function (response) {
-                        console.log(response.data.length + ' results for ' + e.id + ' \'' + term + '\'', response.data);
-                        $scope.searchInProgress[e.id] = false;
+                var observables = $scope.options.providers.map(function(provider) {
+                    //$scope.searchResults[provider.id] = [{
+                    //    name: 'In progress'
+                    //}]; // don't display out of date results to the user
+                    $scope.searchResults[provider.id].inProgress = true;
+                    $scope.searchResults[provider.id].results = [];
+                    $scope.searchResults[provider.id].error = undefined;
+                    $scope.searchResults[provider.id].received = Infinity;
 
-                        $scope.searchResults[e.id].inProgress = false;
-                        response.data.received = new Date(); // store date received so we can order by incoming time
-                        response.data.providerId = e.id;
-                        response.data.term = term;
+                    var providerObservable = createProviderObservable(provider, term);
+                    providerObservable.providerId = provider.id;
+                    providerObservable.term = term;
+                    providerObservable.sent = new Date();
 
-                        $scope.searchResults[e.id] = response.data;
+                    return providerObservable;
+                });
+
+                if (!$scope.$$phase) {
+                    $scope.$digest();
+                }
+
+                observables.forEach(function(providerObservable) {
+                    providerObservable.subscribe(function (response) {
+
+                        var now = new Date();
+
+                        if ($scope.searchInput === providerObservable.term) {
+                            $scope.searchResults[providerObservable.providerId].inProgress = false;
+                            $scope.searchResults[providerObservable.providerId].results = response.results;
+                            $scope.searchResults[providerObservable.providerId].error = "";
+                            $scope.searchResults[providerObservable.providerId].sent = providerObservable.sent;
+                            $scope.searchResults[providerObservable.providerId].received = now;
+
+                            if (!$scope.$$phase) {
+                                $scope.$digest();
+                            }
+                        } else {
+                            console.log($scope.searchInput + ' vs ' + providerObservable.term);
+                        }
+
                     }, function (error) {
-                        console.log('error querying ' + e.id + ' (' + term + ')', error);
-                        $scope.searchInProgress[e.id] = false;
+                        $scope.searchResults[error.config.providerId].inProgress = false;
+                        $scope.searchResults[error.config.providerId].results = [];
+                        $scope.searchResults[error.config.providerId].results.error = error.data.error || error.data; // TODO check this logic with a real server error
+                        $scope.searchResults[error.config.providerId].received = new Date();
+                        $scope.searchResults[error.config.providerId].sent = error.config.sent; // TODO check this
+                        console.log('error - sent at '. error.config.sent);
 
-                        $scope.searchResults[e.id] = [{
-                            error: error.data.error
-                        }];
-                        $scope.searchResults[e.id].inProgress = false;
-                        $scope.searchResults[e.id].received = new Date();
-                        $scope.searchResults[e.id].term = term;
-                        $scope.searchResults[e.id].providerId = e.id;
-
-                    }, function () {
-                        //console.log('done querying ' + e.id + ' (' + term + ')');
                     });
                 });
             });
-
-            // whenever some results become available, create an array which is sorted by time
-            $scope.$watch('searchResults', function () {
-
-                // create array
-                $scope.searchResultsOrderedByTime = [];
-                for (var k in $scope.searchResults) {
-                    $scope.searchResultsOrderedByTime.push($scope.searchResults[k]);
-                }
-
-                // sort the array by incoming time
-                $scope.searchResultsOrderedByTime = $scope.searchResultsOrderedByTime.sort(function (a, b) {
-                    if (a.received > b.received) {
-                        return 1;
-                    }
-                    if (a.received < b.received) {
-                        return -1;
-                    }
-                    else {
-                        return 0;
-                    }
-                });
-            }, true); // true ==> deep watch
-
-            // lookup unfriendly types against a dictionary for display-friendly values
-            $scope.friendlyType = function friendlyType(type) {
-                var friendlies = {
-                    NAMED_ROAD: 'Named Road',
-                    POPULATED_PLACE: 'Populated Place',
-                    ADDRESS: 'Address'
-                };
-
-                return friendlies[type] || type;
-            };
 
             $scope.isOneOrMoreSearchInProgress = function isOneOrMoreSearchInProgress() {
                 for (var k in $scope.searchInProgress) {

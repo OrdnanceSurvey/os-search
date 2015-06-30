@@ -33,6 +33,7 @@
     "jquery": "~2.1.4"
   },
   "devDependencies": {
-    "requirejs": "~2.1.18"
+    "requirejs": "~2.1.18",
+    "angular-order-object-by": "~1.1.1"
   }
 }

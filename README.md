@@ -23,10 +23,39 @@ Include os-search-templates.js after os-search.js.  If you want, you can overrid
 <script src="bower_components/os-search/dist/os-search.js"></script><!-- load os-search after angular and rx.js -->
 ```
 
-
 ### Add `os-search` as an AngularJS module dependency
 ```javascript
 angular.module('myModule', ['os-search']);
+```
+
+## Configuration
+Supports function or AJAX.
+```javascript
+$scope.searchConfig = {
+    providers: [
+        {
+            id: 'NAMES',
+            method: 'GET',
+            params: {
+                q: '%s'
+            },
+            url: '/api/search/names',
+            title: 'Places'
+        }, {
+            id: 'ECHO_UPPERCASE',
+            title: 'Echo',
+            fn: function(term) {
+                try {
+                    term = term.toUpperCase();
+                } catch (e) {}
+                return term;
+            }
+        }
+    ]
+}
+```
+```html
+<div os-search="searchConfig"></div>
 ```
 
 ### RequireJS
