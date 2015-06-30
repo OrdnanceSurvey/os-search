@@ -45,10 +45,23 @@ $scope.searchConfig = {
             id: 'ECHO_UPPERCASE',
             title: 'Echo',
             fn: function(term) {
+                var upper = term;
                 try {
-                    term = term.toUpperCase();
+                    upper = term.toUpperCase();
                 } catch (e) {}
-                return term;
+
+                // return an array to illustrate how transformResponse can be used
+                return [{
+                    text: upper
+                }]
+            },
+            transformResponse: function(response) {
+                // return an object with a results property containing the array
+                return {
+                    results: response.map(function(e) {
+                        return e + '!'; // add an exclamation mark to each result!
+                    })
+                };
             }
         }
     ]

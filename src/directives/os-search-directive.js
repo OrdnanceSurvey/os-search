@@ -139,8 +139,7 @@ var osSearchDirective = function osSearchDirective(observeOnScope, $http, rx, $t
                         $scope.searchResults[providerObservable.providerId].error = error.data.error || error.data; // TODO check this logic with a real server error
                         //$scope.searchResults[providerObservable.providerId].received = new Date();
                         $scope.searchResults[providerObservable.providerId].received = Infinity; // needs to be infinity so that we can sort errors to the right
-                        $scope.searchResults[providerObservable.providerId].sent = error.sent; // TODO check this is available
-                        console.log('error - sent at '+ error.sent);
+                        $scope.searchResults[providerObservable.providerId].sent = providerObservable.sent; // TODO check this is available
 
                     });
                 });
