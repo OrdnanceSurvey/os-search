@@ -578,6 +578,7 @@ var osSearchDirective = function osSearchDirective(observeOnScope, $http, rx) {
                     providerObservable.providerId = provider.id;
                     providerObservable.term = term;
                     providerObservable.sent = new Date();
+                    providerObservable.config = provider;
 
                     return providerObservable;
                 });
@@ -589,20 +590,25 @@ var osSearchDirective = function osSearchDirective(observeOnScope, $http, rx) {
                 observables.forEach(function(providerObservable) {
                     providerObservable.subscribe(function (response) {
 
-                        var now = new Date();
+                        // call tranformResponse function if provided
+                        if (providerObservable.config.transformResponse) {
+                            response = providerObservable.config.transformResponse.call(this,response);
+                        }
 
+                        // check that response is for the current search term
                         if ($scope.searchInput === providerObservable.term) {
                             $scope.searchResults[providerObservable.providerId].inProgress = false;
                             $scope.searchResults[providerObservable.providerId].results = response.results;
                             $scope.searchResults[providerObservable.providerId].error = "";
                             $scope.searchResults[providerObservable.providerId].sent = providerObservable.sent;
-                            $scope.searchResults[providerObservable.providerId].received = now;
+                            $scope.searchResults[providerObservable.providerId].received = new Date();
 
+                            // changes made to scope, so tell angular to digest
                             if (!$scope.$$phase) {
                                 $scope.$digest();
                             }
                         } else {
-                            console.log($scope.searchInput + ' vs ' + providerObservable.term);
+                            // don't update the UI if the response is from a different search
                         }
 
                     }, function (error) {
@@ -610,8 +616,8 @@ var osSearchDirective = function osSearchDirective(observeOnScope, $http, rx) {
                         $scope.searchResults[error.config.providerId].results = [];
                         $scope.searchResults[error.config.providerId].results.error = error.data.error || error.data; // TODO check this logic with a real server error
                         $scope.searchResults[error.config.providerId].received = new Date();
-                        $scope.searchResults[error.config.providerId].sent = error.config.sent; // TODO check this
-                        console.log('error - sent at '. error.config.sent);
+                        $scope.searchResults[error.config.providerId].sent = error.sent; // TODO check this is available
+                        console.log('error - sent at '. error.sent);
 
                     });
                 });

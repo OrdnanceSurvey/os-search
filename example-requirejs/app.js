@@ -46,21 +46,17 @@ define('app', ['angular', 'os-search', 'os-search-templates'], function(angular)
                         try {
                             upper = term.toUpperCase();
                         } catch (e) {}
-                        //return {
-                        //    config: {
-                        //        providerId: 'ECHO_UPPERCASE'
-                        //    },
-                        //    data: [{
-                        //        name: upper,
-                        //        type: 'who knows'
-                        //    }]
-                        //};
+
+                        // return an array, to illustrate how transformResponse can be used
+                        return [{
+                            text: upper
+                        }]
+                    },
+                    transformResponse: function(response) {
+                        // return an object with a results property containing the array
                         return {
-                            results: [{
-                                name: upper,
-                                type: 'who knows'
-                            }]
-                        }
+                            results: response
+                        };
                     }
                 }
             ]
