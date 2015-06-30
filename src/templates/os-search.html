@@ -1,14 +1,22 @@
-<input class="os-search" type="search" autocomplete="on" placeholder="Start typing to search..."
+<input class="os-search"
+       type="search"
+       autocomplete="on"
+       placeholder="Start typing to search..."
        ng-model="searchInput"/>
 <div class="os-search-results" ng-show="searchInput.length > 2">
-    <div ng-repeat="(id, data) in searchResults">
-        <div class="os-search-result-header">{{searchProviders[id].title}}</div>
-        <div class="os-search-result" ng-show="data.inProgress">
+    <div ng-repeat="data in searchResults | orderObjectBy:'received'">
+        <div class="os-search-result-header">{{searchProviders[data.providerId].title}}</div>
+        <div class="os-search-result" ng-if="data.inProgress">
             <p>In progress...</p>
         </div>
-        <div class="os-search-result" ng-repeat="result in data.results">
-            <p ng-if="result.text">{{result.text}} <span ng-if="result.locality">, {{result.locality}}</span></p>
-            <p ng-if="result.error">Error</p>
+        <div class="os-search-result" ng-if="data.error">
+            <p>Error</p>
+        </div>
+        <div class="os-search-result"
+             ng-if="data.results"
+             ng-repeat="result in data.results"
+             ng-click="selectResult(result)">
+            <p ng-if="result.text">{{result.text}}</p>
         </div>
     </div>
 </div>

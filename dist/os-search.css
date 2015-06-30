@@ -10,19 +10,40 @@ input.os-search[type=search] {
 .os-search-results {
   background-color: #ffffff;
   display: table;
-  padding: 20px;
+  padding: 10px;
+  -webkit-box-shadow: 6px 0 20px 0 rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: 6px 0 20px 0 rgba(0, 0, 0, 0.19);
+  -o-box-shadow: 6px 0 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 6px 0 20px 0 rgba(0, 0, 0, 0.19);
 }
 .os-search-results > div {
   display: inline-block;
   vertical-align: top;
+  min-width: 150px;
+  max-width: 300px;
 }
 .os-search-results > div + div {
   margin-left: 20px;
 }
 .os-search-result-header {
   font-weight: 700;
-  border-bottom: 1px solid orange;
+  border-bottom: 1px solid #3091f6;
+  padding: 5px;
+}
+.os-search-result {
+  padding: 5px;
 }
 .os-search-result:hover {
-  background-color: #cccccc;
+  background-color: #3091f6;
+  color: white;
+  cursor: pointer;
+}
+.os-search-result > p {
+  margin: 0;
+}
+.os-search-result + .os-search-result {
+  border-top: 1px dotted #dfdfdf;
+}
+.os-search-result + .os-search-result:hover {
+  border-top: 1px solid #3091f6;
 }

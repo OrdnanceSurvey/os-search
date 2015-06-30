@@ -5,6 +5,13 @@
   border-radius: @arguments;
 }
 
+.box-shadow(...) {
+  -webkit-box-shadow: @arguments;
+  -moz-box-shadow: @arguments;
+  -o-box-shadow: @arguments;
+  box-shadow: @arguments;
+}
+
 input.os-search[type=search] {
   padding: 10px;
   font-size: 18px;
@@ -14,11 +21,14 @@ input.os-search[type=search] {
 .os-search-results {
   background-color: #ffffff;
   display: table;
-  padding: 20px;
+  padding: 10px;
+  .box-shadow(6px 0 20px 0 rgba(0, 0, 0, 0.19););
 
   > div {
     display: inline-block;
     vertical-align: top;
+    min-width: 150px;
+    max-width: 300px;
 
     + div {
       margin-left: 20px;
@@ -28,11 +38,29 @@ input.os-search[type=search] {
 
 .os-search-result-header {
   font-weight: 700;
-  border-bottom: 1px solid orange;
+  border-bottom: 1px solid #3091f6;
+  padding: 5px;
 }
 
 .os-search-result {
+  padding: 5px;
+
   &:hover {
-    background-color: #cccccc;
+    background-color: #3091f6;
+    color: white;
+    cursor: pointer;
   }
+
+  > p {
+    margin: 0;
+  }
+
+  + .os-search-result {
+    border-top: 1px dotted #dfdfdf;
+
+    &:hover {
+       border-top: 1px solid #3091f6;
+     }
+  }
+
 }
