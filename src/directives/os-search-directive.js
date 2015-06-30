@@ -1,5 +1,5 @@
-var dependencies = ['observeOnScope', '$http', 'rx'];
-var osSearchDirective = function osSearchDirective(observeOnScope, $http, rx) {
+var dependencies = ['observeOnScope', '$http', 'rx', '$timeout'];
+var osSearchDirective = function osSearchDirective(observeOnScope, $http, rx, $timeout) {
     return {
         templateUrl: 'templates/os-search.html',
         scope: {
@@ -13,10 +13,11 @@ var osSearchDirective = function osSearchDirective(observeOnScope, $http, rx) {
             $scope.searchResults = {};
             $scope.searchInProgress = {};
 
+            // turn $scope.options.providers into an object hashMap, with provider.id as the key
             $scope.searchProviders = $scope.options.providers.reduce(function (providerHashMap, provider) {
                 providerHashMap[provider.id] = provider;
                 return providerHashMap;
-            }, {}); // turn $scope.options.providers into an object hashMap, with provider.id as the key
+            }, {});
 
             // turn search provider JSON into an rx.Observable, with a URL including the search term
             var observableWithAJAXConfig = function observableWithAJAXConfig(provider, term) {
@@ -36,8 +37,6 @@ var osSearchDirective = function osSearchDirective(observeOnScope, $http, rx) {
                 for (k in config.data) {
                     config.data[k] = config.data[k].replace('%s', term);
                 }
-
-                //$scope.searchInProgress[provider.id] = true;
 
                 return rx.Observable.fromPromise($http(config));
             };
@@ -86,13 +85,14 @@ var osSearchDirective = function osSearchDirective(observeOnScope, $http, rx) {
             throttledInput.subscribe(function (term) {
 
                 var observables = $scope.options.providers.map(function(provider) {
-                    //$scope.searchResults[provider.id] = [{
-                    //    name: 'In progress'
-                    //}]; // don't display out of date results to the user
-                    $scope.searchResults[provider.id].inProgress = true;
-                    $scope.searchResults[provider.id].results = [];
-                    $scope.searchResults[provider.id].error = undefined;
-                    $scope.searchResults[provider.id].received = Infinity;
+
+                    $timeout(function() {
+                        $scope.searchResults[provider.id].inProgress = true;
+                        $scope.searchResults[provider.id].results = [];
+                        $scope.searchResults[provider.id].error = undefined;
+                        $scope.searchResults[provider.id].received = Infinity;
+                    });
+
 
                     var providerObservable = createProviderObservable(provider, term);
                     providerObservable.providerId = provider.id;
@@ -103,33 +103,35 @@ var osSearchDirective = function osSearchDirective(observeOnScope, $http, rx) {
                     return providerObservable;
                 });
 
-                if (!$scope.$$phase) {
-                    $scope.$digest();
-                }
+                //if (!$scope.$$phase) {
+                //    $scope.$digest();
+                //}
 
                 observables.forEach(function(providerObservable) {
                     providerObservable.subscribe(function (response) {
 
-                        // call tranformResponse function if provided
-                        if (providerObservable.config.transformResponse) {
-                            response = providerObservable.config.transformResponse.call(this,response);
-                        }
-
-                        // check that response is for the current search term
-                        if ($scope.searchInput === providerObservable.term) {
-                            $scope.searchResults[providerObservable.providerId].inProgress = false;
-                            $scope.searchResults[providerObservable.providerId].results = response.results;
-                            $scope.searchResults[providerObservable.providerId].error = "";
-                            $scope.searchResults[providerObservable.providerId].sent = providerObservable.sent;
-                            $scope.searchResults[providerObservable.providerId].received = new Date();
-
-                            // changes made to scope, so tell angular to digest
-                            if (!$scope.$$phase) {
-                                $scope.$digest();
+                        $timeout(function() {
+                            // call tranformResponse function if provided
+                            if (providerObservable.config.transformResponse) {
+                                response = providerObservable.config.transformResponse.call(this,response);
                             }
-                        } else {
-                            // don't update the UI if the response is from a different search
-                        }
+
+                            // check that response is for the current search term
+                            if ($scope.searchInput === providerObservable.term) {
+                                $scope.searchResults[providerObservable.providerId].inProgress = false;
+                                $scope.searchResults[providerObservable.providerId].results = response.results;
+                                $scope.searchResults[providerObservable.providerId].error = "";
+                                $scope.searchResults[providerObservable.providerId].sent = providerObservable.sent;
+                                $scope.searchResults[providerObservable.providerId].received = new Date();
+
+                                // changes made to scope, so tell angular to digest
+                                if (!$scope.$$phase) {
+                                    $scope.$digest();
+                                }
+                            } else {
+                                // don't update the UI if the response is from a different search
+                            }
+                        });
 
                     }, function (error) {
                         $scope.searchResults[error.config.providerId].inProgress = false;
