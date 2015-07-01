@@ -33,8 +33,5 @@
   "devDependencies": {
     "requirejs": "~2.1.18",
     "angular-order-object-by": "~1.1.1"
-  },
-  "resolutions": {
-    "angular": "~1.2.28"
   }
 }
