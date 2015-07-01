@@ -7,13 +7,15 @@ var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx
         },
         link: function ($scope, elem, attrs) {
 
+            var DEFAULT_INPUT_BUFFER = 200; // use this if $scope.options.buffer is not set
+
             $scope.options = $scope.options || {};
             $scope.options.providers = $scope.options.providers || [];
             $scope.options.placeholder = $scope.options.hasOwnProperty('placeholder') ? $scope.options.placeholder : 'Start typing to search';
 
             $scope.searchResults = {};
 
-            // turn $scope.options.providers into an object hashMap, with provider.id as the key
+            // turn $scope.options.providers into a hashmap, with provider.id as the keys
             $scope.searchProviders = $scope.options.providers.reduce(function (providerHashMap, provider) {
                 providerHashMap[provider.id] = provider;
                 return providerHashMap;
@@ -64,7 +66,7 @@ var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx
             };
 
             // create an rx.Observable from the user input changes
-            var throttledInput = observeOnScope($scope, 'searchInput').debounce(200).map(function (e) {
+            var throttledInput = observeOnScope($scope, 'searchInput').debounce($scope.options.buffer || DEFAULT_INPUT_BUFFER).map(function (e) {
                 return e.newValue;
             }).distinctUntilChanged(); // ignore duplicate searches if value didn't change since last search
 

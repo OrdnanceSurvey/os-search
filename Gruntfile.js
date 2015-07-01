@@ -16,6 +16,13 @@ module.exports = function (grunt) {
 
         concat: {
             dist: {
+                options: {
+                    banner: '/**\n' +
+                            ' * @license <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("dd-mm-yyyy") %>\n' +
+                            ' * (c) 2015 Ordnance Survey Limited\n' +
+                            ' * License: MIT\n' +
+                            ' */\n'
+                },
                 src: ['bower_components/angular-rx/dist/rx.angular.js', 'bower_components/angular-order-object-by/src/ng-order-object-by.js', 'src/osel-search-module.js', 'src/directives/osel-search-directive.js'],
                 dest: 'dist/osel-search.js',
                 nonull: true
@@ -71,6 +78,9 @@ module.exports = function (grunt) {
 
         uglify: {
             dist: {
+                options: {
+                    preserveComments: 'all'
+                },
                 files: {
                     'dist/osel-search.min.js': ['dist/osel-search.js']
                 }

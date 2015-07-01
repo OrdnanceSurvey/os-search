@@ -6,6 +6,7 @@ define('app', ['angular', 'osel-search', 'osel-search-templates'], function(angu
 
         $scope.searchConfig = {
             placeholder: 'Search',
+            buffer: 200,
             providers: [
                 //{
                 //    id: 'WIKI',
@@ -30,7 +31,7 @@ define('app', ['angular', 'osel-search', 'osel-search-templates'], function(angu
                         // return an array to illustrate how transformResponse can be used
                         return [{
                             text: upper
-                        }]
+                        }];
                     },
                     transformResponse: function(response) {
                         // return an object with a results property containing the array
