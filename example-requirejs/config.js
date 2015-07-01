@@ -4,18 +4,18 @@ requirejs({
         'jquery': '../bower_components/jquery/dist/jquery',
 
         'rx': '../bower_components/rxjs/dist/rx.all',
-        'os-search': '../dist/os-search',
-        'os-search-templates': '../dist/os-search-templates'
+        'osel-search': '../dist/osel-search',
+        'osel-search-templates': '../dist/osel-search-templates'
     },
     shim: {
         'angular': {
             deps: ['jquery'],
             exports: 'angular'
         },
-        'os-search-templates': {
-            deps: ['angular', 'os-search']
+        'osel-search-templates': {
+            deps: ['angular', 'osel-search']
         },
-        'os-search': {
+        'osel-search': {
             deps: ['angular']
         }
     }

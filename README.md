@@ -1,4 +1,4 @@
-## os-search
+## osel-search
 AngularJS implementation of a flexible search box, by OS Elements
 
 ## Demo
@@ -7,29 +7,29 @@ example-requirejs/index.html
 Live demo coming soon!
 
 ## Installation and Requirements
-**Note:** os-search uses AngularJS 1.2.x to maintain IE8 support.
+**Note:** osel-search uses AngularJS 1.2.x to maintain IE8 support.
 
 Project files are available through Bower:
 ```
-bower install os-search --save-dev
+bower install osel-search --save-dev
 ```
 
 ### Dependencies
-Include os-search.js before [`angular`](https://github.com/angular/angular.js) and [`rx`](https://github.com/Reactive-Extensions/RxJS).
-Include os-search-templates.js after os-search.js.  If you want, you can override the template by injecting your own HTML into angular's $templateCache with they key 'templates/os-search.html' and leaving out os-search-templates.js
+Include osel-search.js before [`angular`](https://github.com/angular/angular.js) and [`rx`](https://github.com/Reactive-Extensions/RxJS).
+Include osel-search-templates.js after osel-search.js.  If you want, you can override the template by injecting your own HTML into angular's $templateCache with they key 'templates/osel-search.html' and leaving out osel-search-templates.js
 ```html
 <script src="angular.js"></script>
 <script src="rx.js"></script>
-<script src="bower_components/os-search/dist/os-search.js"></script><!-- load os-search after angular and rx.js -->
+<script src="bower_components/osel-search/dist/osel-search.js"></script><!-- load osel-search after angular and rx.js -->
 ```
 
-### Add `os-search` as an AngularJS module dependency
+### Add `osel-search` as an AngularJS module dependency
 ```javascript
-angular.module('myModule', ['os-search']);
+angular.module('myModule', ['osel-search']);
 ```
 
 ## Configuration
-os-search can be configured to use any AJAX or Function based provider, just remember to transform the results to match the supported JSON format (see next point).
+osel-search can be configured to use any AJAX or Function based provider, just remember to transform the results to match the supported JSON format (see next point).
 ```javascript
 $scope.searchConfig = {
     placeholder: 'Type to search...',
@@ -79,7 +79,7 @@ $scope.searchConfig = {
 }
 ```
 ```html
-<div os-search="searchConfig"></div>
+<div osel-search="searchConfig"></div>
 ```
 
 ### Search results JSON format
@@ -96,31 +96,31 @@ $scope.searchConfig = {
 ```
 
 ### RequireJS
-You can easily use os-search with RequireJS.  Take a look at the [example](example-requirejs/config.js), or make your requirejs config look like this:
+You can easily use osel-search with RequireJS.  Take a look at the [example](example-requirejs/config.js), or make your requirejs config look like this:
 ```javascript
 requirejs({
     paths: {
         'angular': '../bower_components/angular/angular',
         'rx': '../bower_components/rxjs/dist/rx.all', // bower install rxjs --save-dev
-        'os-search': '../dist/os-search',
-        'os-search-templates': '../dist/os-search-templates'
+        'osel-search': '../dist/osel-search',
+        'osel-search-templates': '../dist/osel-search-templates'
     },
     shim: {
         'angular': {
             exports: 'angular' // tell requirejs that angular exports a global
         },
-        'os-search-templates': {
-            deps: ['angular', 'os-search'] // make sure os-search module is loaded before the templates
+        'osel-search-templates': {
+            deps: ['angular', 'osel-search'] // make sure osel-search module is loaded before the templates
         },
-        'os-search': {
+        'osel-search': {
             deps: ['angular']
         }
     }
 });
 
-define('app', ['angular', 'os-search', 'os-search-templates'], function(angular) {
+define('app', ['angular', 'osel-search', 'osel-search-templates'], function(angular) {
 
-    var app = angular.module('my-app', ['os-search']);
+    var app = angular.module('my-app', ['osel-search']);
 
     // ...
 });

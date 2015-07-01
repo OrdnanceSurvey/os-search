@@ -1,26 +1,26 @@
-angular.module('os-search').run(['$templateCache', function($templateCache) {
+angular.module('osel-search').run(['$templateCache', function($templateCache) {
   'use strict';
 
-  $templateCache.put('templates/os-search.html',
-    "<input class=\"os-search\"\n" +
+  $templateCache.put('templates/osel-search.html',
+    "<input class=\"osel-search\"\n" +
     "       type=\"search\"\n" +
     "       autocomplete=\"on\"\n" +
     "       placeholder=\"{{options.placeholder}}\"\n" +
     "       ng-model=\"searchInput\"\n" +
     "       ng-focus=\"searchHidden = false\"/>\n" +
-    "<div class=\"os-search-results\" ng-show=\"searchInput.length > 2 && !searchHidden && resultsAvailable()\">\n" +
+    "<div class=\"osel-search-results\" ng-show=\"searchInput.length > 2 && !searchHidden && resultsAvailable()\">\n" +
     "    <div ng-repeat=\"column in searchResults | orderObjectBy:'received'\" ng-if=\"column.error || column.inProgress || column.results.length > 0\">\n" +
-    "        <div class=\"os-search-result-header\">{{searchProviders[column.providerId].title}}</div>\n" +
+    "        <div class=\"osel-search-result-header\">{{searchProviders[column.providerId].title}}</div>\n" +
     "\n" +
-    "        <div class=\"os-search-result\" ng-if=\"column.inProgress\">\n" +
+    "        <div class=\"osel-search-result\" ng-if=\"column.inProgress\">\n" +
     "            <p>In progress...</p>\n" +
     "        </div>\n" +
     "\n" +
-    "        <div class=\"os-search-result\" ng-if=\"column.error\">\n" +
+    "        <div class=\"osel-search-result\" ng-if=\"column.error\">\n" +
     "            <p>Error</p>\n" +
     "        </div>\n" +
     "\n" +
-    "        <div class=\"os-search-result\"\n" +
+    "        <div class=\"osel-search-result\"\n" +
     "             ng-if=\"column.results\"\n" +
     "             ng-repeat=\"result in column.results\"\n" +
     "             ng-click=\"selectResult(result, searchProviders[column.providerId].onSelect)\">\n" +

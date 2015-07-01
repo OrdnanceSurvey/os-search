@@ -477,13 +477,13 @@
   }
 )(angular);
 
-var module = angular.module('os-search', ['rx', 'ngOrderObjectBy']);
+var module = angular.module('osel-search', ['rx', 'ngOrderObjectBy']);
 var dependencies = ['observeOnScope', '$http', 'rx', '$timeout'];
-var osSearchDirective = function osSearchDirective(observeOnScope, $http, rx, $timeout) {
+var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx, $timeout) {
     return {
-        templateUrl: 'templates/os-search.html',
+        templateUrl: 'templates/osel-search.html',
         scope: {
-            options: '=osSearch'
+            options: '=oselSearch'
         },
         link: function ($scope, elem, attrs) {
 
@@ -641,4 +641,4 @@ var osSearchDirective = function osSearchDirective(observeOnScope, $http, rx, $t
         }
     };
 };
-angular.module('os-search').directive('osSearch', dependencies.concat([osSearchDirective]));
+angular.module('osel-search').directive('oselSearch', dependencies.concat([oselSearchDirective]));

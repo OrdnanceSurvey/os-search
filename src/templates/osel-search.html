@@ -1,22 +1,22 @@
-<input class="os-search"
+<input class="osel-search"
        type="search"
        autocomplete="on"
        placeholder="{{options.placeholder}}"
        ng-model="searchInput"
        ng-focus="searchHidden = false"/>
-<div class="os-search-results" ng-show="searchInput.length > 2 && !searchHidden && resultsAvailable()">
+<div class="osel-search-results" ng-show="searchInput.length > 2 && !searchHidden && resultsAvailable()">
     <div ng-repeat="column in searchResults | orderObjectBy:'received'" ng-if="column.error || column.inProgress || column.results.length > 0">
-        <div class="os-search-result-header">{{searchProviders[column.providerId].title}}</div>
+        <div class="osel-search-result-header">{{searchProviders[column.providerId].title}}</div>
 
-        <div class="os-search-result" ng-if="column.inProgress">
+        <div class="osel-search-result" ng-if="column.inProgress">
             <p>In progress...</p>
         </div>
 
-        <div class="os-search-result" ng-if="column.error">
+        <div class="osel-search-result" ng-if="column.error">
             <p>Error</p>
         </div>
 
-        <div class="os-search-result"
+        <div class="osel-search-result"
              ng-if="column.results"
              ng-repeat="result in column.results"
              ng-click="selectResult(result, searchProviders[column.providerId].onSelect)">

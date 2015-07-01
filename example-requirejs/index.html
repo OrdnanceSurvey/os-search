@@ -2,7 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" type="text/css"/>
-    <link rel="stylesheet" href="../dist/os-search.css" type="text/css" />
+    <link rel="stylesheet" href="../dist/osel-search.css" type="text/css" />
 
     <style>
         body {
@@ -33,16 +33,16 @@
 </head>
 <body ng-controller="my-ctrl">
 <header class="container">
-    <h1>os-search example</h1>
-    <p>make sure you have installed the devDependencies for os-search:</p>
+    <h1>osel-search example</h1>
+    <p>make sure you have installed the devDependencies for osel-search:</p>
     <pre class="panel">bower install --production=false</pre>
     <p>Use the directive in yout HTML:</p>
-    <pre class="panel">&lt;div os-search="searchConfig"&gt;&lt;/div&gt;</pre>
+    <pre class="panel">&lt;div osel-search="searchConfig"&gt;&lt;/div&gt;</pre>
     <p>Set your provider config on the scope object you referenced:</p>
     <pre class="panel">$scope.searchConfig = {{searchConfig | json}};</pre>
 </header>
 <section class="container">
-    <div os-search="searchConfig"></div>
+    <div osel-search="searchConfig"></div>
 </section>
 <script type="text/javascript" src="../bower_components/requirejs/require.js" data-main="config.js"></script>
 </body>

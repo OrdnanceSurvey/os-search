@@ -1,4 +1,4 @@
-var timer = require("grunt-timer");
+var timer = require("grunt-timer"); // used to report exact timings of individual tasks
 module.exports = function (grunt) {
 
     timer.init(grunt);
@@ -16,8 +16,8 @@ module.exports = function (grunt) {
 
         concat: {
             dist: {
-                src: ['bower_components/angular-rx/dist/rx.angular.js', 'bower_components/angular-order-object-by/src/ng-order-object-by.js', 'src/OsGridRef.js', 'src/os-search.js', '!src/controllers/os-search-controller.js', 'src/directives/os-search-directive.js'],
-                dest: 'dist/os-search.js',
+                src: ['bower_components/angular-rx/dist/rx.angular.js', 'bower_components/angular-order-object-by/src/ng-order-object-by.js', 'src/osel-search-module.js', 'src/directives/osel-search-directive.js'],
+                dest: 'dist/osel-search.js',
                 nonull: true
             }
         },
@@ -25,7 +25,7 @@ module.exports = function (grunt) {
         less: {
             dist: {
                 files: {
-                    'dist/os-search.css': 'src/styles/**/*.less'
+                    'dist/osel-search.css': 'src/styles/**/*.less'
                 }
             }
         },
@@ -36,14 +36,7 @@ module.exports = function (grunt) {
                 src: 'templates/**/*.html',
                 dest: 'dist/<%= pkg.name %>-templates.js',
                 options: {
-                    module: 'os-search'
-                    //bootstrap: function (module, script) {
-                    //    return 'define(["angular"], function(angular) {\n' +
-                    //        'angular.module("' + module + '").run(["$templateCache", function($templateCache) {\n' +
-                    //        script +
-                    //        '}]);\n' +
-                    //        '});';
-                    //}
+                    module: 'osel-search'
                 }
             }
         },
@@ -79,7 +72,7 @@ module.exports = function (grunt) {
         uglify: {
             dist: {
                 files: {
-                    'dist/os-search.min.js': ['dist/os-search.js']
+                    'dist/osel-search.min.js': ['dist/osel-search.js']
                 }
             }
         }
