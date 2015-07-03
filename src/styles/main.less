@@ -34,6 +34,7 @@ input.osel-search[type=search] {
     + div {
       margin-left: 20px;
     }
+
   }
 }
 
@@ -46,10 +47,11 @@ input.osel-search[type=search] {
 .osel-search-result {
   padding: 5px;
 
-  &:hover {
+  &:hover, &:focus {
     background-color: #3091f6;
     color: white;
     cursor: pointer;
+    outline: 0;
   }
 
   > p {
@@ -59,7 +61,7 @@ input.osel-search[type=search] {
   + .osel-search-result {
     border-top: 1px dotted #dfdfdf;
 
-    &:hover {
+    &:hover, &:focus {
        border-top: 1px solid #3091f6;
      }
   }

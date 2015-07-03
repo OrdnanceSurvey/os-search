@@ -31,6 +31,10 @@ define('app', ['angular', 'osel-search', 'osel-search-templates'], function(angu
                         // return an array to illustrate how transformResponse can be used
                         return [{
                             text: upper
+                        },{
+                            text: upper
+                        },{
+                            text: upper
                         }];
                     },
                     transformResponse: function(response) {
@@ -41,6 +45,39 @@ define('app', ['angular', 'osel-search', 'osel-search-templates'], function(angu
                     },
                     onSelect: function(result, hideSearch) {
                         console.log('selected an UPPERCASE result', result);
+                        hideSearch();
+                    }
+                },
+                {
+                    id: 'ECHO_LOWERCASE',
+                    title: 'Convert to lowercase',
+                    fn: function(term) {
+                        var lower = term;
+                        try {
+                            lower = term.toLowerCase();
+                        } catch (e) {}
+
+                        // return an array to illustrate how transformResponse can be used
+                        return [{
+                            text: lower
+                        },{
+                            text: lower
+                        },{
+                            text: lower
+                        },{
+                            text: lower
+                        },{
+                            text: lower
+                        }];
+                    },
+                    transformResponse: function(response) {
+                        // return an object with a results property containing the array
+                        return {
+                            results: response
+                        };
+                    },
+                    onSelect: function(result, hideSearch) {
+                        console.log('selected a LOWERCASE result', result);
                         hideSearch();
                     }
                 }

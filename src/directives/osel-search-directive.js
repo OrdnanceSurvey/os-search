@@ -1,5 +1,5 @@
-var dependencies = ['observeOnScope', '$http', 'rx', '$timeout'];
-var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx, $timeout) {
+var dependencies = ['observeOnScope', '$http', 'rx', '$timeout', '$filter', '$window'];
+var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx, $timeout, $filter, $window) {
     return {
         templateUrl: 'templates/osel-search.html',
         scope: {
@@ -138,6 +138,8 @@ var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx
                 });
             });
 
+            // helper function which returns true when any results are available
+            // ignores errors and inProgress, or empty results
             $scope.resultsAvailable = function resultsAvailable() {
                 return $scope.options.providers.filter(function(provider) {
                     var sr = $scope.searchResults[provider.id];
@@ -160,6 +162,129 @@ var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx
                     cb.call(null, result, $scope.hideSearch);
                 }
             };
+
+            // set focus to a specific search result.  Need to pass the providerId of the result so we can locate it in the DOM
+            var focusResult = function focusResult(result, providerId) {
+                var index = $scope.searchResults[providerId].results.indexOf(result);
+                var searchResultDOM = elem.find('div[data-provider-id=\'' + providerId + '\'] .osel-search-result[data-search-result-index=\'' + index + '\']');
+                searchResultDOM[0].focus();
+            };
+
+            // sets focus to the search input box, and puts cursor to the end of text
+            var focusSearchInput = function focusSearchInput() {
+                var input = elem.find('input.osel-search');
+                input[0].focus();
+
+                // use the selection properties
+                if (input[0].selectionStart) {
+                    $timeout(function() {
+                        input[0].selectionStart = input[0].selectionEnd = input[0].value.length;
+                    });
+                } else {
+                    // otherwise try this hack
+                    $timeout(function() {
+                        input.val(input.val());
+                    });
+                }
+            };
+
+            // keydown handler from the search input box
+            $scope.keyFromInput = function keyFromInput($event) {
+                if ($event.keyCode === 40) {
+
+                    var orderedResults = $filter('orderObjectBy')($scope.searchResults, 'received').filter(function(e) {
+                        return !e.error && !e.inProgress && e.results.length > 0;
+                    });
+                    try {
+                        focusResult(orderedResults[0].results[0], orderedResults[0].providerId);
+                    } catch (e) {}
+                }
+            };
+
+            // helper function to find neighbouring search result of a given result
+            // takes into account top/bottom and left/right (doesn't exceed length of list)
+            var getNeighbour = function getNeighbour(searchResultElement, xOffset, yOffset) {
+                // make the ordered array, as is displayed to the user
+                var orderedResults = $filter('orderObjectBy')($scope.searchResults, 'received').filter(function(e) {
+                    return !e.error && !e.inProgress && e.results.length > 0;
+                });
+
+                // create another array of only the provider IDs
+                var orderedProviderIds = orderedResults.map(function(column) {
+                    return column.providerId;
+                });
+
+                var currentProviderId = $(searchResultElement).attr('data-provider-id');
+                var currentProviderIndex = orderedProviderIds.indexOf(currentProviderId);
+
+                var neighbourProviderId = orderedProviderIds[currentProviderIndex + xOffset]; // add the offset to go left or right
+                if (currentProviderIndex + xOffset < 0) {
+                    neighbourProviderId = orderedProviderIds[0];
+                } else if (currentProviderIndex + xOffset > orderedResults.length - 1) {
+                    neighbourProviderId = orderedProviderIds[orderedResults.length - 1];
+                } else if (orderedResults[neighbourProviderId] && (orderedResults[neighbourProviderId].inProgress || orderedResults[neighbourProviderId].error)) {
+                    neighbourProviderId = currentProviderId;
+                }
+
+                var currentResultIndex = $window.parseInt($(searchResultElement).attr('data-search-result-index'));
+                var neighbourResultIndex = currentResultIndex + yOffset;
+                if (currentResultIndex + yOffset < 0) {
+                    neighbourResultIndex = 0;
+                } else if (currentResultIndex + yOffset > $scope.searchResults[neighbourProviderId].results.length - 1) {
+                    neighbourResultIndex = $scope.searchResults[neighbourProviderId].results.length - 1;
+                }
+
+                return {
+                    result: $scope.searchResults[neighbourProviderId].results[neighbourResultIndex],
+                    providerId: neighbourProviderId
+                };
+            };
+
+
+            // move up/down/left/right from current focused search result
+            $scope.keyFromSearchResult = function keyFromSearchResult($event, result, providerId) {
+
+                var neighbour;
+
+                // 37 left
+                // 38 up
+                // 39 right
+                // 40 down
+                if ($event.keyCode === 37) { // left
+                    neighbour = getNeighbour($window.document.activeElement, -1, 0);
+                    focusResult(neighbour.result, neighbour.providerId);
+
+                } else if ($event.keyCode === 39) { // right
+                    neighbour = getNeighbour($window.document.activeElement, 1, 0);
+                    focusResult(neighbour.result, neighbour.providerId);
+
+                } else if ($event.keyCode === 40) { // down
+                    neighbour = getNeighbour($window.document.activeElement, 0, 1);
+                    console.log(neighbour);
+                    focusResult(neighbour.result, neighbour.providerId);
+
+                } else if ($event.keyCode === 38) { // up
+                    if ($scope.searchResults[providerId].results.indexOf(result) === 0) {
+                        focusSearchInput();
+                    } else {
+                        neighbour = getNeighbour($window.document.activeElement, 0, -1);
+                        console.log(neighbour);
+                        focusResult(neighbour.result, neighbour.providerId);
+                    }
+                }
+
+                return neighbour;
+            };
+
+            // hide search resutls if user clicks outdside the searchbox or outside the search results
+            $('html').on('click', function(event) {
+                var el = $(event.target);
+                if (!(el.closest('.osel-search').length || el.closest('.osel-search-results').length)) {
+                    $timeout(function() {
+                        $scope.searchHidden = true;
+                    });
+                }
+            });
         }
     };
 };

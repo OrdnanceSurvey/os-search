@@ -7,9 +7,10 @@ angular.module('osel-search').run(['$templateCache', function($templateCache) {
     "       autocomplete=\"on\"\n" +
     "       placeholder=\"{{options.placeholder}}\"\n" +
     "       ng-model=\"searchInput\"\n" +
-    "       ng-focus=\"searchHidden = false\"/>\n" +
+    "       ng-focus=\"searchHidden = false\"\n" +
+    "       ng-keydown=\"keyFromInput($event)\"/>\n" +
     "<div class=\"osel-search-results\" ng-show=\"searchInput.length > 2 && !searchHidden && resultsAvailable()\">\n" +
-    "    <div ng-repeat=\"column in searchResults | orderObjectBy:'received'\" ng-if=\"column.error || column.inProgress || column.results.length > 0\">\n" +
+    "    <div ng-repeat=\"column in searchResults | orderObjectBy:'received'\" ng-if=\"column.error || column.inProgress || column.results.length > 0\" data-provider-id=\"{{column.providerId}}\">\n" +
     "        <div class=\"osel-search-result-header\">{{searchProviders[column.providerId].title}}</div>\n" +
     "\n" +
     "        <div class=\"osel-search-result\" ng-if=\"column.inProgress\">\n" +
@@ -23,7 +24,11 @@ angular.module('osel-search').run(['$templateCache', function($templateCache) {
     "        <div class=\"osel-search-result\"\n" +
     "             ng-if=\"column.results\"\n" +
     "             ng-repeat=\"result in column.results\"\n" +
-    "             ng-click=\"selectResult(result, searchProviders[column.providerId].onSelect)\">\n" +
+    "             ng-click=\"selectResult(result, searchProviders[column.providerId].onSelect)\"\n" +
+    "             data-search-result-index=\"{{$index}}\"\n" +
+    "             data-provider-id=\"{{column.providerId}}\"\n" +
+    "             tabindex=\"0\"\n" +
+    "             ng-keydown=\"keyFromSearchResult($event, result, column.providerId)\">\n" +
     "            <p ng-if=\"result.text\">{{result.text}}</p>\n" +
     "        </div>\n" +
     "    </div>\n" +
