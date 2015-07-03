@@ -257,7 +257,6 @@ var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx
 
                 } else if ($event.keyCode === 40) { // down
                     neighbour = getNeighbour($window.document.activeElement, 0, 1);
-                    console.log(neighbour);
                     focusResult(neighbour.result, neighbour.providerId);
 
                 } else if ($event.keyCode === 38) { // up
@@ -265,7 +264,6 @@ var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx
                         focusSearchInput();
                     } else {
                         neighbour = getNeighbour($window.document.activeElement, 0, -1);
-                        console.log(neighbour);
                         focusResult(neighbour.result, neighbour.providerId);
                     }
                 } else if ($event.keyCode === 13) { // enter
