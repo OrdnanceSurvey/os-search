@@ -24,7 +24,7 @@
              data-search-result-index="{{$index}}"
              data-provider-id="{{column.providerId}}"
              tabindex="0"
-             ng-keydown="keyFromSearchResult($event, result, column.providerId)">
+             ng-keydown="keyFromSearchResult($event, result, column.providerId, searchProviders[column.providerId].onSelect)">
             <p ng-if="result.text">{{result.text}}</p>
         </div>
     </div>

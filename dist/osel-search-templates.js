@@ -28,7 +28,7 @@ angular.module('osel-search').run(['$templateCache', function($templateCache) {
     "             data-search-result-index=\"{{$index}}\"\n" +
     "             data-provider-id=\"{{column.providerId}}\"\n" +
     "             tabindex=\"0\"\n" +
-    "             ng-keydown=\"keyFromSearchResult($event, result, column.providerId)\">\n" +
+    "             ng-keydown=\"keyFromSearchResult($event, result, column.providerId, searchProviders[column.providerId].onSelect)\">\n" +
     "            <p ng-if=\"result.text\">{{result.text}}</p>\n" +
     "        </div>\n" +
     "    </div>\n" +

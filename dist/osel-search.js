@@ -727,14 +727,11 @@ var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx
 
 
             // move up/down/left/right from current focused search result
-            $scope.keyFromSearchResult = function keyFromSearchResult($event, result, providerId) {
+            // also listen for enter/esc to select result or hide search results
+            $scope.keyFromSearchResult = function keyFromSearchResult($event, result, providerId, onSelect) {
 
                 var neighbour;
 
-                // 37 left
-                // 38 up
-                // 39 right
-                // 40 down
                 if ($event.keyCode === 37) { // left
                     neighbour = getNeighbour($window.document.activeElement, -1, 0);
                     focusResult(neighbour.result, neighbour.providerId);
@@ -756,6 +753,10 @@ var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx
                         console.log(neighbour);
                         focusResult(neighbour.result, neighbour.providerId);
                     }
+                } else if ($event.keyCode === 13) { // enter
+                    $scope.selectResult(result, onSelect);
+                } else if ($event.keyCode === 27) { // escape
+                    $scope.searchHidden = true;
                 }
 
                 return neighbour;
@@ -770,6 +771,7 @@ var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx
                     });
                 }
             });
+
         }
     };
 };
