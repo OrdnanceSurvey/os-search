@@ -1,6 +1,6 @@
 {
   "name": "osel-search",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "AngularJS implementation of a flexible search box by OS Elements",
   "main": "dist/os-search.min.js",
   "directories": {
