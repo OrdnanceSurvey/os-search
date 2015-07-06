@@ -1,7 +1,7 @@
 var capabilitiesForBrowser = function capabilitiesForBrowser(browserName, browserVersion) {
     var capabilities = {
         'browserName': browserName,
-        'build': process.env.TRAVIS_BUILD_NUMBER,
+        'build': process.env.CIRCLE_BUILD_NUM,
         'name': process.env.CIRCLE_PROJECT_USERNAME + '-' + process.env.CIRCLE_PROJECT_REPONAME + '-' + process.env.CIRCLE_BRANCH
     };
     if (browserVersion) {
@@ -19,6 +19,7 @@ exports.config = {
     //getPageTimeout: 40000,
 
 
+    framework: 'jasmine',
 
     baseUrl: 'http://localhost:9001/',
 
@@ -38,4 +39,12 @@ exports.config = {
         defaultTimeoutInterval: 360000,
         includeStackTrace: true
     }
+
+    //onPrepare: function() {
+    //    require('jasmine-reporters');
+    //
+    //    jasmine.getEnv().addReporter(
+    //        new jasmine.JUnitXmlReporter(null, true, true, 'test/reports/e2e.xml')
+    //    );
+    //}
 };

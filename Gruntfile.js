@@ -133,7 +133,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('dev', ['dist', 'concurrent:dev']);
 
-    grunt.registerTask('test', ['sauce-connect', 'connect:server', 'protractor:all']);
+    grunt.registerTask('test', ['connect:server', 'sauce-connect', 'protractor:all']);
 
 
 
