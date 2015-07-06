@@ -11,6 +11,6 @@ test:
     - while [ ! -e ~/sc_ready ]; do sleep 1; done
     - grunt connect:server:keepalive &
     # wait for app to be ready
-    curl --retry 10 --retry-delay 2 -v http://localhost:9001
+    - curl --retry 10 --retry-delay 2 -v http://localhost:9001
     # Run selenium tests
     - grunt protractor:all
