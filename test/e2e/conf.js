@@ -19,6 +19,8 @@ exports.config = {
 
     //seleniumAddress: 'http://localhost:4444/wd/hub',
 
+    baseUrl: 'http://localhost:9001/',
+
     multiCapabilities: [
         capabilitiesForBrowser('chrome', '41'),
         capabilitiesForBrowser('firefox'),
