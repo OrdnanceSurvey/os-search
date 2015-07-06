@@ -9,10 +9,10 @@ var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx
 
             var DEFAULT_INPUT_BUFFER = 200; // use this if $scope.options.buffer is not set
 
+            // ---------- variables setup start -----------
             $scope.options = $scope.options || {};
             $scope.options.providers = $scope.options.providers || [];
             $scope.options.placeholder = $scope.options.hasOwnProperty('placeholder') ? $scope.options.placeholder : 'Start typing to search';
-
             $scope.searchResults = {};
 
             // turn $scope.options.providers into a hashmap, with provider.id as the keys
@@ -20,6 +20,7 @@ var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx
                 providerHashMap[provider.id] = provider;
                 return providerHashMap;
             }, {});
+            // ---------- variables setup end -----------
 
             // turn search provider JSON into an rx.Observable, with a URL including the search term
             var observableWithAJAXConfig = function observableWithAJAXConfig(provider, term) {
