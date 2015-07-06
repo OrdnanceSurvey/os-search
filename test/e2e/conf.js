@@ -18,6 +18,8 @@ exports.config = {
     //allScriptsTimeout: 40000,
     //getPageTimeout: 40000,
 
+    allScriptsTimeout: 60000,
+    getPageTimeout: 60000,
 
     framework: 'jasmine',
 
