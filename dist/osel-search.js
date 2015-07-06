@@ -1,5 +1,5 @@
 /**
- * @license osel-search - v0.0.1 - 03-07-2015
+ * @license osel-search - v0.0.3 - 06-07-2015
  * (c) 2015 Ordnance Survey Limited
  * License: MIT
  */
@@ -494,10 +494,10 @@ var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx
 
             var DEFAULT_INPUT_BUFFER = 200; // use this if $scope.options.buffer is not set
 
+            // ---------- variables setup start -----------
             $scope.options = $scope.options || {};
             $scope.options.providers = $scope.options.providers || [];
             $scope.options.placeholder = $scope.options.hasOwnProperty('placeholder') ? $scope.options.placeholder : 'Start typing to search';
-
             $scope.searchResults = {};
 
             // turn $scope.options.providers into a hashmap, with provider.id as the keys
@@ -505,6 +505,7 @@ var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx
                 providerHashMap[provider.id] = provider;
                 return providerHashMap;
             }, {});
+            // ---------- variables setup end -----------
 
             // turn search provider JSON into an rx.Observable, with a URL including the search term
             var observableWithAJAXConfig = function observableWithAJAXConfig(provider, term) {
@@ -742,7 +743,6 @@ var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx
 
                 } else if ($event.keyCode === 40) { // down
                     neighbour = getNeighbour($window.document.activeElement, 0, 1);
-                    console.log(neighbour);
                     focusResult(neighbour.result, neighbour.providerId);
 
                 } else if ($event.keyCode === 38) { // up
@@ -750,7 +750,6 @@ var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx
                         focusSearchInput();
                     } else {
                         neighbour = getNeighbour($window.document.activeElement, 0, -1);
-                        console.log(neighbour);
                         focusResult(neighbour.result, neighbour.providerId);
                     }
                 } else if ($event.keyCode === 13) { // enter
