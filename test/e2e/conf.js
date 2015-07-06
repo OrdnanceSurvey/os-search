@@ -12,19 +12,20 @@ var capabilitiesForBrowser = function capabilitiesForBrowser(browserName, browse
 exports.config = {
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
+//seleniumAddress: 'http://localhost:4444/wd/hub',
 
-    //rootElement: 'body',
+    rootElement: 'body',
     //allScriptsTimeout: 40000,
     //getPageTimeout: 40000,
 
-    //seleniumAddress: 'http://localhost:4444/wd/hub',
+
 
     baseUrl: 'http://localhost:9001/',
 
     multiCapabilities: [
-        capabilitiesForBrowser('chrome', '41'),
-        capabilitiesForBrowser('firefox'),
-        capabilitiesForBrowser('safari')
+        capabilitiesForBrowser('chrome')
+        //capabilitiesForBrowser('firefox'),
+        //capabilitiesForBrowser('safari')
     ],
 
     // Spec patterns are relative to the current working directly when

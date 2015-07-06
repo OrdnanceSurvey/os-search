@@ -114,13 +114,29 @@ module.exports = function (grunt) {
         grunt.log.writeln('grunt dev to watch src then rebuild js/css/templates automatically');
     });
 
-
+    grunt.registerTask('sauce-connect', 'Launch Sauce Connect', function () {
+        var done = this.async();
+        require('sauce-connect-launcher')({
+            username: process.env.SAUCE_USERNAME,
+            accessKey: process.env.SAUCE_ACCESS_KEY
+        }, function (err, sauceConnectProcess) {
+            if (err) {
+                console.error(err.message);
+            } else {
+                console.log('sauce-connect tunnel opened successfully');
+                done();
+            }
+        });
+    });
 
     grunt.registerTask('dist', ['jshint:all', 'concat:dist', 'uglify:dist', 'ngtemplates:dist', 'less:dist']);
 
     grunt.registerTask('dev', ['dist', 'concurrent:dev']);
 
-    grunt.registerTask('test', ['connect:server', 'protractor:all']);
+    grunt.registerTask('test', ['sauce-connect', 'connect:server', 'protractor:all']);
+
+
+
 
     return grunt;
 };

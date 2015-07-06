@@ -1,7 +1,7 @@
 describe('example-requirejs', function() {
 
     it('should show results when searching', function() {
-        browser.get('http://localhost:9001/example-requirejs/index.html');
+        browser.get('example-requirejs/index.html');
 
         element(by.model('searchInput')).sendKeys('abcdefg');
 
