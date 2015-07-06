@@ -6,10 +6,12 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-angular-templates');
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-protractor-runner');
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -26,6 +28,15 @@ module.exports = function (grunt) {
                 src: ['bower_components/angular-rx/dist/rx.angular.js', 'bower_components/angular-order-object-by/src/ng-order-object-by.js', 'src/osel-search-module.js', 'src/directives/osel-search-directive.js'],
                 dest: 'dist/osel-search.js',
                 nonull: true
+            }
+        },
+
+        connect: {
+            server: {
+                options: {
+                    port: 9001,
+                    base: '.'
+                }
             }
         },
 
@@ -76,6 +87,16 @@ module.exports = function (grunt) {
             all: ['src/**/*.js']
         },
 
+        protractor: {
+            all: {   // Grunt requires at least one target to run so you can simply put 'all: {}' here too.
+                options: {
+                    configFile: 'test/e2e/conf.js', // Default config file
+                    keepAlive: true, // If false, the grunt process stops when the test fails.
+                    noColor: false // If true, protractor will not use colors in its output.
+                }
+            }
+        },
+
         uglify: {
             dist: {
                 options: {
@@ -99,9 +120,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('dev', ['dist', 'concurrent:dev']);
 
-    grunt.registerTask('test', function () {
-        grunt.log.writeln('no tests written yet!');
-    });
+    grunt.registerTask('test', ['connect:server', 'protractor:all']);
 
     return grunt;
 };

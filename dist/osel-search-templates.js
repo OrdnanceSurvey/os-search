@@ -10,7 +10,7 @@ angular.module('osel-search').run(['$templateCache', function($templateCache) {
     "       ng-focus=\"searchHidden = false\"\n" +
     "       ng-keydown=\"keyFromInput($event)\"/>\n" +
     "<div class=\"osel-search-results\" ng-show=\"searchInput.length > 2 && !searchHidden && resultsAvailable()\">\n" +
-    "    <div ng-repeat=\"column in searchResults | orderObjectBy:'received'\" ng-if=\"column.error || column.inProgress || column.results.length > 0\" data-provider-id=\"{{column.providerId}}\">\n" +
+    "    <div class=\"osel-search-result-column\" ng-repeat=\"column in searchResults | orderObjectBy:'received'\" ng-if=\"column.error || column.inProgress || column.results.length > 0\" data-provider-id=\"{{column.providerId}}\">\n" +
     "        <div class=\"osel-search-result-header\">{{searchProviders[column.providerId].title}}</div>\n" +
     "\n" +
     "        <div class=\"osel-search-result\" ng-if=\"column.inProgress\">\n" +
