@@ -13,9 +13,9 @@ exports.config = {
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
 
-    rootElement: 'body',
-    allScriptsTimeout: 40000,
-    getPageTimeout: 40000,
+    //rootElement: 'body',
+    //allScriptsTimeout: 40000,
+    //getPageTimeout: 40000,
 
     //seleniumAddress: 'http://localhost:4444/wd/hub',
 
