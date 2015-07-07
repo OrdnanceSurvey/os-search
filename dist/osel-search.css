@@ -12,6 +12,7 @@ input.osel-search[type=search] {
   display: table;
   padding: 10px;
   margin-left: 1px;
+  position: absolute;
   -webkit-box-shadow: 6px 0 20px 0 rgba(0, 0, 0, 0.19);
   -moz-box-shadow: 6px 0 20px 0 rgba(0, 0, 0, 0.19);
   -o-box-shadow: 6px 0 20px 0 rgba(0, 0, 0, 0.19);
