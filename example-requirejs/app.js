@@ -45,7 +45,6 @@ define('app', ['angular', 'osel-search', 'osel-search-templates'], function(angu
                     },
                     onSelect: function(result, hideSearch) {
                         console.log('selected an UPPERCASE result', result);
-                        hideSearch();
                     }
                 },
                 {
@@ -78,7 +77,6 @@ define('app', ['angular', 'osel-search', 'osel-search-templates'], function(angu
                     },
                     onSelect: function(result, hideSearch) {
                         console.log('selected a LOWERCASE result', result);
-                        hideSearch();
                     }
                 }
             ]

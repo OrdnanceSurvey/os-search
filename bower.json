@@ -25,13 +25,13 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.2.28",
-    "rxjs": "~2.5.2",
-    "angular-rx": "~0.0.14",
-    "jquery": "~2.1.4"
+    "angular": "1.x",
+    "rxjs": ">0.0.14",
+    "angular-rx": "1.x",
+    "jquery": "~2"
   },
   "devDependencies": {
-    "requirejs": "~2.1.18",
-    "angular-order-object-by": "~1.1.1"
+    "requirejs": "2.x",
+    "angular-order-object-by": "1.x"
   }
 }

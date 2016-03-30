@@ -1,3 +1,15 @@
+# ignore vendor libraries
+node_modules/
+bower_components/
+typings/
+
+# intellij
+*.iml
 .idea
-bower_components
-node_modules
+
+# built files
+build/
+dist/
+
+# misc
+npm-debug.log
