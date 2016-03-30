@@ -1,5 +1,6 @@
 # ignore vendor libraries
 node_modules/
+bower_components/
 typings/
 
 # intellij
