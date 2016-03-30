@@ -157,11 +157,13 @@ var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx
                 $scope.searchHidden = true;
             };
 
-            // call onSelect function if provided.  Pass the hideSearch handler so the function may call it
+            // call onSelect function if provided.
             $scope.selectResult = function selectResult(result, cb) {
                 if (cb) {
-                    cb.call(null, result, $scope.hideSearch);
+                    cb.call(null, result);
                 }
+                $scope.hideSearch();
+                $scope.searchInput = result.text;
             };
 
             // set focus to a specific search result.  Need to pass the providerId of the result so we can locate it in the DOM
@@ -198,6 +200,7 @@ var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx
                     });
                     try {
                         focusResult(orderedResults[0].results[0], orderedResults[0].providerId);
+                        $event.preventDefault();
                     } catch (e) {}
                 }
             };
@@ -251,15 +254,15 @@ var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx
                 if ($event.keyCode === 37) { // left
                     neighbour = getNeighbour($window.document.activeElement, -1, 0);
                     focusResult(neighbour.result, neighbour.providerId);
-
+                    $event.preventDefault();
                 } else if ($event.keyCode === 39) { // right
                     neighbour = getNeighbour($window.document.activeElement, 1, 0);
                     focusResult(neighbour.result, neighbour.providerId);
-
+                    $event.preventDefault();
                 } else if ($event.keyCode === 40) { // down
                     neighbour = getNeighbour($window.document.activeElement, 0, 1);
                     focusResult(neighbour.result, neighbour.providerId);
-
+                    $event.preventDefault();
                 } else if ($event.keyCode === 38) { // up
                     if ($scope.searchResults[providerId].results.indexOf(result) === 0) {
                         focusSearchInput();
@@ -267,6 +270,7 @@ var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx
                         neighbour = getNeighbour($window.document.activeElement, 0, -1);
                         focusResult(neighbour.result, neighbour.providerId);
                     }
+                    $event.preventDefault();
                 } else if ($event.keyCode === 13) { // enter
                     $scope.selectResult(result, onSelect);
                 } else if ($event.keyCode === 27) { // escape
@@ -276,7 +280,7 @@ var oselSearchDirective = function oselSearchDirective(observeOnScope, $http, rx
                 return neighbour;
             };
 
-            // hide search resutls if user clicks outdside the searchbox or outside the search results
+            // hide search results if user clicks outdside the searchbox or outside the search results
             $('html').on('click', function(event) {
                 var el = $(event.target);
                 if (!(el.closest('.osel-search').length || el.closest('.osel-search-results').length)) {
