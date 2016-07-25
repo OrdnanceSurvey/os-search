@@ -2,3 +2,9 @@ dependencies:
   post:
     - wget https://saucelabs.com/downloads/sc-latest-linux.tar.gz
     - tar -xzf sc-latest-linux.tar.gz
+    - npm run build
+deployment:
+  deployDev:
+    branch: dev
+    commands:
+      - npm run semantic-release
