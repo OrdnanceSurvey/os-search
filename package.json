@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "grunt test",
+    "test": "./node_modules/grunt-protractor-runner/scripts/webdriver-manager-update & grunt test-local",
     "build": "grunt dist",
     "semantic-release": "./node_modules/.bin/semantic-release pre && npm publish && ./node_modules/.bin/semantic-release post",
     "test:local": "./node_modules/grunt-protractor-runner/scripts/webdriver-manager-update & grunt test-local"
