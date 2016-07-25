@@ -17,9 +17,9 @@ var capabilitiesForBrowser = function capabilitiesForBrowser(browserName, browse
         capabilities.platform = platform;
     }
 
-    if (browserName === 'phantomjs') {
-        capabilities['phantomjs.binary.path'] = require('phantomjs-prebuilt').path;
-    }
+    // if (browserName === 'phantomjs') {
+    //     capabilities['phantomjs.binary.path'] = require('phantomjs-prebuilt').path;
+    // }
 
     return capabilities;
 };
