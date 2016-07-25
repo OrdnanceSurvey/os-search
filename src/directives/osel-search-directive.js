@@ -25,11 +25,15 @@
 
                 // turn search provider JSON into an rx.Observable, with a URL including the search term
                 var observableWithAJAXConfig = function observableWithAJAXConfig(provider, term) {
+                    var url = provider.url;
+                    if (angular.isFunction(provider.url)) {
+                        url = provider.url(term);
+                    }
                     var config = {
                         params: angular.copy(provider.params),
                         data: angular.copy(provider.data),
                         dataType: provider.dataType,
-                        url: provider.url,
+                        url: url,
                         method: provider.method
                     };
 
@@ -49,10 +53,22 @@
 
                     return rx.Observable.create(function(observer) {
                         try {
-                            observer.onNext(fn.call(this, term));
-                            observer.onCompleted();
+
+                            var result = fn.call(this, term);
+
+                            // if result is a promise, then listen for resolve/reject.  Otherwise, use value immediately
+                            if (angular.isFunction(result.then)) {
+                                result.then(function(response) {
+                                    observer.onNext(response);
+                                    observer.onCompleted();
+                                }).catch(function(response) {
+                                    observer.onError(response);
+                                });
+                            } else {
+                                observer.onNext(result);
+                                observer.onCompleted();
+                            }
                         } catch (e) {
-                            console.error( e);
                             observer.onError(e);
                         }
                     });
@@ -132,7 +148,7 @@
                         }, function (error) {
                             $scope.searchResults[providerObservable.providerId].inProgress = false;
                             $scope.searchResults[providerObservable.providerId].results = [];
-                            $scope.searchResults[providerObservable.providerId].error = error.data.error || error.data; // TODO check this logic with a real server error
+                            $scope.searchResults[providerObservable.providerId].error = error.data ? error.data.error : error.data; // TODO check this logic with a real server error
                             $scope.searchResults[providerObservable.providerId].received = Infinity; // needs to be Infinity so that we can sort errors to the right
                             $scope.searchResults[providerObservable.providerId].sent = providerObservable.sent; // TODO check this is available
 
@@ -282,14 +298,26 @@
                 };
 
                 // hide search results if user clicks outdside the searchbox or outside the search results
-                $('html').on('click', function(event) {
-                    var el = $(event.target);
-                    if (!(el.closest('.osel-search').length || el.closest('.osel-search-results').length)) {
+                angular.element(document.querySelector('html')).on('click', function(event) {
+                    var el = angular.element(event.target);
+                    if (el && !(closestByClass(el[0], 'osel-search') || closestByClass(el[0], 'osel-search-results'))) {
                         $timeout(function() {
                             $scope.searchHidden = true;
                         });
                     }
                 });
+
+                function closestByClass(el, className) {
+                    while (! (el.classList.contains(className))) {
+                      el = el.parentNode;
+
+                      if (!el || !el.classList) {
+                        return null;
+                      }
+                    }
+
+                    return el;
+                  }
 
             }
         };
