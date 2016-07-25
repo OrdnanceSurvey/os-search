@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "./node_modules/grunt-protractor-runner/scripts/webdriver-manager-update & grunt test-local",
+    "test": "./node_modules/grunt-protractor-runner/scripts/webdriver-manager-update & grunt test",
     "build": "grunt dist",
     "semantic-release": "./node_modules/.bin/semantic-release pre && npm publish && ./node_modules/.bin/semantic-release post",
     "test:local": "./node_modules/grunt-protractor-runner/scripts/webdriver-manager-update & grunt test-local"
@@ -48,7 +48,7 @@
     "last-release-git-tag": "craigsnyders/last-release-git-tag#feat-initial-implementation",
     "phantomjs-prebuilt": "^2.1.7",
     "protractor": "^2.1.0",
-    "sauce-connect-launcher": "^0.11.1",
+    "sauce-connect-launcher": "0.x",
     "semantic-release": "^4.3.5"
   },
   "dependencies": {},

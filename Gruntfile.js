@@ -130,7 +130,9 @@ module.exports = function (grunt) {
         var done = this.async();
         require('sauce-connect-launcher')({
             username: process.env.SAUCE_USERNAME,
-            accessKey: process.env.SAUCE_ACCESS_KEY
+            accessKey: process.env.SAUCE_ACCESS_KEY,
+            verbose: true,
+            verboseDebugging: true
         }, function (err, sauceConnectProcess) {
             if (err) {
                 console.error(err.message);
