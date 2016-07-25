@@ -1,5 +1,6 @@
 dependencies:
   post:
+    - bower install
     - npm run build
 deployment:
   publishRelease:
