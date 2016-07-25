@@ -16,6 +16,12 @@ var capabilitiesForBrowser = function capabilitiesForBrowser(browserName, browse
     if (platform) {
         capabilities.platform = platform;
     }
+
+    if (browserName === 'phantomjs') {
+        capabilities['phantomjs.binary.path'] = require('phantomjs').path;
+        capabilities['phantomjs.ghostdriver.cli.args'] = ['--loglevel=DEBUG'];
+    }
+
     return capabilities;
 };
 exports.config = {
