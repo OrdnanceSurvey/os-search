@@ -1,14 +1,16 @@
 {
   "name": "osel-search",
-  "version": "0.0.4",
+  "version": "0.0.4-republshed",
   "description": "AngularJS implementation of a flexible search box by OS Elements",
   "main": "dist/os-search.min.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "grunt test",
-    "build": "grunt dist"
+    "test": "./node_modules/grunt-protractor-runner/scripts/webdriver-manager-update & grunt test-local",
+    "build": "grunt dist",
+    "semantic-release": "./node_modules/.bin/semantic-release pre && npm publish && ./node_modules/.bin/semantic-release post",
+    "test:local": "./node_modules/grunt-protractor-runner/scripts/webdriver-manager-update & grunt test-local"
   },
   "repository": {
     "type": "git",
@@ -29,6 +31,7 @@
   },
   "homepage": "https://github.com/OrdnanceSurvey/os-search",
   "devDependencies": {
+    "condition-circle": "^1.2.0",
     "grunt": "^0.4.5",
     "grunt-angular-templates": "^0.5.7",
     "grunt-concurrent": "^2.0.0",
@@ -39,10 +42,22 @@
     "grunt-contrib-uglify": "^0.9.1",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-protractor-runner": "^2.0.0",
+    "grunt-protractor-webdriver": "^0.2.5",
     "grunt-timer": "^0.6.0",
     "jasmine-reporters": "^2.0.7",
+    "last-release-git-tag": "craigsnyders/last-release-git-tag#feat-initial-implementation",
     "protractor": "^2.1.0",
-    "sauce-connect-launcher": "^0.11.1"
+    "sauce-connect-launcher": "^0.11.1",
+    "semantic-release": "^4.3.5"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "peerDependencies": {
+    "rx": "4.x",
+    "rx-angular": "1.1.x"
+  },
+  "release": {
+    "verifyConditions": "condition-circle",
+    "getLastRelease": "last-release-git-tag",
+    "branch": "dev"
+  }
 }

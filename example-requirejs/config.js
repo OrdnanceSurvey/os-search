@@ -4,6 +4,7 @@ requirejs({
         'jquery': '../bower_components/jquery/dist/jquery',
 
         'rx': '../bower_components/rxjs/dist/rx.all',
+        'angular-rx': '../bower_components/angular-rx/dist/rx.angular',
         'osel-search': '../dist/osel-search',
         'osel-search-templates': '../dist/osel-search-templates'
     },
@@ -16,7 +17,7 @@ requirejs({
             deps: ['angular', 'osel-search']
         },
         'osel-search': {
-            deps: ['angular']
+            deps: ['angular', 'angular-rx']
         }
     }
 });
