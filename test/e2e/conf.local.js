@@ -18,7 +18,7 @@ var capabilitiesForBrowser = function capabilitiesForBrowser(browserName, browse
     }
 
     if (browserName === 'phantomjs') {
-        capabilities['phantomjs.binary.path'] = './node_modules/phantomjs-prebuilt/bin/phantomjs';
+        capabilities['phantomjs.binary.path'] = require('phantomjs-prebuilt').path;
     }
 
     return capabilities;
