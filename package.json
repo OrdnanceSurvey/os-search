@@ -46,6 +46,7 @@
     "grunt-timer": "^0.6.0",
     "jasmine-reporters": "^2.0.7",
     "last-release-git-tag": "craigsnyders/last-release-git-tag#feat-initial-implementation",
+    "phantomjs-prebuilt": "2.1.x",
     "protractor": "^2.1.0",
     "sauce-connect-launcher": "^0.11.1",
     "semantic-release": "^4.3.5"
