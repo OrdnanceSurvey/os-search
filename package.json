@@ -59,6 +59,6 @@
   "release": {
     "verifyConditions": "condition-circle",
     "getLastRelease": "last-release-git-tag",
-    "branch": "dev"
+    "branch": "master"
   }
 }
