@@ -1,1 +1,3 @@
-var module = angular.module('osel-search', ['rx', 'ngOrderObjectBy']);
+(function() {
+    angular.module('osel-search', ['rx', 'ngOrderObjectBy']);
+})();

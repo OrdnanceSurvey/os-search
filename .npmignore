@@ -1,0 +1,22 @@
+# ignore vendor libraries
+node_modules
+bower_components
+
+# intellij
+*.iml
+.idea
+
+# built files
+src/**/*.js
+
+# misc
+npm-debug.log
+demo
+docs
+webpack.*
+example-requirejs
+src
+test
+circle.yml
+Gruntfile.js
+
