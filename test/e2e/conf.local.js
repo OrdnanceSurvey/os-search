@@ -18,7 +18,7 @@ var capabilitiesForBrowser = function capabilitiesForBrowser(browserName, browse
     }
 
     if (browserName === 'phantomjs') {
-        capabilities['phantomjs.binary.path'] = './node_modules/.bin/phantomjs';
+        capabilities['phantomjs.binary.path'] = 'node_modules/.bin/phantomjs';
     }
 
     return capabilities;
