@@ -18,7 +18,7 @@ var capabilitiesForBrowser = function capabilitiesForBrowser(browserName, browse
     }
 
     if (browserName === 'phantomjs') {
-        capabilities['phantomjs.binary.path'] = require('phantomjs').path;
+        capabilities['phantomjs.binary.path'] = './node_modules/.bin/phantomjs';
         capabilities['phantomjs.ghostdriver.cli.args'] = ['--loglevel=DEBUG'];
     }
 
