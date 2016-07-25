@@ -39,7 +39,7 @@ exports.config = {
     baseUrl: 'http://localhost:9001/',
 
     multiCapabilities: [
-        capabilitiesForBrowser('chrome')
+        capabilitiesForBrowser('phantomjs')
     ],
 
     // Spec patterns are relative to the current working directly when
