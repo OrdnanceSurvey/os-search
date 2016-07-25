@@ -4,7 +4,7 @@ dependencies:
     - tar -xzf sc-latest-linux.tar.gz
     - npm run build
 deployment:
-  deployDev:
-    branch: dev
+  publishRelease:
+    branch: master
     commands:
       - npm run semantic-release
