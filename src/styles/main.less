@@ -1,3 +1,5 @@
+@blue: #1169C9;
+
 .border-radius(...) {
   -webkit-border-radius: @arguments;
   -moz-border-radius: @arguments;
@@ -5,11 +7,40 @@
   border-radius: @arguments;
 }
 
-.box-shadow(...) {
-  -webkit-box-shadow: @arguments;
-  -moz-box-shadow: @arguments;
-  -o-box-shadow: @arguments;
-  box-shadow: @arguments;
+.osel-search-wrapper {
+  md-tabs {
+    margin-top: 16px;
+    border-radius: 4px;
+    background-color: #f6f6f6;
+    border: 1px solid #e1e1e1;
+
+    .md-tab.md-active {
+      color: @blue;
+    }
+
+    md-ink-bar {
+      color: @blue;
+      background-color: @blue;
+    }
+
+    md-tabs-canvas {
+      background-color: white;
+      border-radius: 4px 4px 0px 0px;
+    }
+
+    md-tabs-wrapper {
+      border-bottom: 1px solid rgba(0,0,0,0.12);
+    }
+
+    .md-subheader {
+      background-color: inherit;
+    }
+  }
+
+  .md-tab {
+    text-transform: none;
+  }
+
 }
 
 input.osel-search[type=search] {
@@ -17,31 +48,21 @@ input.osel-search[type=search] {
   font-size: 18px;
   font-weight: 300;
   .border-radius(0px);
+  &:focus {
+    border: 1px solid @blue;
+  }
 }
 .osel-search-results {
-  background-color: #ffffff;
-  display: table;
   padding: 10px;
-  margin-left: 1px;
-  position: absolute;
-  .box-shadow(6px 0 20px 0 rgba(0, 0, 0, 0.19););
 
-  > div {
-    display: inline-block;
-    vertical-align: top;
-    min-width: 150px;
-    max-width: 300px;
-
-    + div {
-      margin-left: 20px;
-    }
-
+  + .osel-search-results {
+    margin-left: 10px;
   }
 }
 
 .osel-search-result-header {
   font-weight: 700;
-  border-bottom: 1px solid #3091f6;
+  border-bottom: 1px solid @blue;
   padding: 5px;
 }
 
@@ -49,7 +70,7 @@ input.osel-search[type=search] {
   padding: 5px;
 
   &:hover, &:focus {
-    background-color: #3091f6;
+    background-color: @blue;
     color: white;
     cursor: pointer;
     outline: 0;
@@ -63,8 +84,12 @@ input.osel-search[type=search] {
     border-top: 1px dotted #dfdfdf;
 
     &:hover, &:focus {
-       border-top: 1px solid #3091f6;
+       border-top: 1px solid @blue;
      }
   }
 
+}
+
+.osel-search-footer {
+  text-align: center;
 }

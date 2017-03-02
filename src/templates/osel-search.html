@@ -1,31 +1,26 @@
-<input class="osel-search"
-       type="search"
-       autocomplete="on"
-       placeholder="{{options.placeholder}}"
-       ng-model="searchInput"
-       ng-focus="searchHidden = false"
-       ng-keydown="keyFromInput($event)"/>
-<div class="osel-search-results" ng-show="searchInput.length > 2 && !searchHidden && resultsAvailable()">
-    <div class="osel-search-result-column" ng-repeat="column in searchResults | orderObjectBy:'received'" ng-if="column.error || column.inProgress || column.results.length > 0" data-provider-id="{{column.providerId}}">
-        <div class="osel-search-result-header">{{searchProviders[column.providerId].title}}</div>
-
-        <div class="osel-search-result" ng-if="column.inProgress">
-            <p>In progress...</p>
-        </div>
-
-        <div class="osel-search-result" ng-if="column.error">
-            <p>Error</p>
-        </div>
-
-        <div class="osel-search-result"
-             ng-if="column.results"
-             ng-repeat="result in column.results"
-             ng-click="selectResult(result, searchProviders[column.providerId].onSelect)"
-             data-search-result-index="{{$index}}"
-             data-provider-id="{{column.providerId}}"
-             tabindex="0"
-             ng-keydown="keyFromSearchResult($event, result, column.providerId, searchProviders[column.providerId].onSelect)">
-            <p ng-if="result.text">{{result.text}}</p>
-        </div>
-    </div>
+<div layout="column" class="osel-search-wrapper">
+    <input flex class="osel-search"
+           type="search"
+           autocomplete="on"
+           placeholder="{{options.placeholder}}"
+           ng-model="searchInput"
+           ng-focus="searchHidden = false" />
+    <md-tabs md-center-tabs="true" md-dynamic-height="" ng-show="searchInput.length > 2" class="md-whiteframe-1dp">
+        <md-tab ng-repeat="column in options.providers"
+                label="{{column.title}} ({{aggregateLength(column)}})">
+            <div layout="row" layout-align="center start">
+                <md-list ng-repeat="provider in column.providers">
+                    <md-subheader ng-if="::provider.title">{{provider.title}}</md-subheader>
+                    <md-list-item ng-repeat="result in searchResults[provider.id].results" ng-click="selectResult(result, provider.onSelect)">
+                        <div class="md-list-item-text">{{result.text}}</div>
+                    </md-list-item>
+                    <md-list-item ng-hide="searchResults[provider.id].results.length">
+                        <div class="md-list-item-text" ng-show="searchResults[provider.id].inProgress">Loading...</div>
+                        <div class="md-list-item-text" ng-hide="searchResults[provider.id].inProgress">No results found.</div>
+                    </md-list-item>
+                </md-list>
+            </div>
+            <p class="osel-search-footer md-caption" ng-if="column.footer">{{::column.footer}}</p>
+        </md-tab>
+    </md-tabs>
 </div>

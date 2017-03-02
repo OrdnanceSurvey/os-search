@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" type="text/css"/>
+    <link rel="stylesheet" href="../dist/osel-search.css" type="text/css" />
+
+
+    <!-- Angular Material CSS now available via Google CDN; version 0.9.4 used here -->
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/1.1.1/angular-material.min.css">
+
+    <!-- Angular Material Dependencies -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-aria.min.js"></script>
+
+    <!-- Angular Material Javascript now available via Google CDN; version 0.9.4 used here -->
+    <script src="//ajax.googleapis.com/ajax/libs/angular_material/1.1.1/angular-material.min.js"></script>
+
+    <!-- rx -->
+    <script src="//gitcdn.link/repo/Reactive-Extensions/RxJS/master/dist/rx.all.min.js"></script>
+    <script src="//gitcdn.link/repo/Reactive-Extensions/rx.angular.js/master/dist/rx.angular.min.js"></script>
+
+    <script src="../dist/osel-search.js"></script>
+    <script src="../dist/osel-search-templates.js"></script>
+    <script src="app.js"></script>
+
+    <style>
+        body {
+            background: #ACFFDF;
+            height: auto;
+        }
+        header {
+            padding: 20px;
+            border-top: 3px solid #dfdfdf;
+            border-bottom: 3px solid rgba(0,0,0,0.2);
+        }
+
+        section {
+            padding: 20px;
+        }
+
+        .container {
+            width: 1024px;
+            box-sizing: border-box;
+            margin: 0 auto;
+            background: rgba(0,0,0,0.1);
+        }
+
+        .panel {
+            border: 1px solid #dfdfdf;
+            border: 1px solid rgba(0,0,0,0.1);
+            padding: 1em;
+        }
+
+        section.container + section.container {
+            border-top: 3px solid #dfdfdf;
+            border-top: 3px solid rgba(0,0,0,0.2);
+        }
+    </style>
+
+</head>
+<body ng-app="example-app" ng-controller="example-ctrl">
+<header class="container">
+    <h1>osel-search example</h1>
+</header>
+<section class="container">
+    <div osel-search="searchConfig"></div>
+</section>
+<section class="container">
+    <pre class="panel">{{searchConfig | json}}</pre>
+</section>
+</body>
+</html>

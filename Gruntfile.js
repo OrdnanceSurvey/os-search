@@ -26,7 +26,7 @@ module.exports = function (grunt) {
                             ' * License: MIT\n' +
                             ' */\n'
                 },
-                src: ['bower_components/angular-order-object-by/src/ng-order-object-by.js', 'src/osel-search-module.js', 'src/directives/osel-search-directive.js'],
+                src: ['src/osel-search-module.js', 'src/directives/osel-search-directive.js'],
                 dest: 'dist/osel-search.js',
                 nonull: true
             }
