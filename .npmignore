@@ -14,7 +14,7 @@ npm-debug.log
 demo
 docs
 webpack.*
-example-requirejs
+example
 src
 test
 circle.yml

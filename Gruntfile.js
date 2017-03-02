@@ -11,8 +11,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-protractor-runner');
-    grunt.loadNpmTasks('grunt-protractor-webdriver');
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -26,7 +24,7 @@ module.exports = function (grunt) {
                             ' * License: MIT\n' +
                             ' */\n'
                 },
-                src: ['bower_components/angular-order-object-by/src/ng-order-object-by.js', 'src/osel-search-module.js', 'src/directives/osel-search-directive.js'],
+                src: ['src/osel-search-module.js', 'src/directives/osel-search-directive.js'],
                 dest: 'dist/osel-search.js',
                 nonull: true
             }
@@ -88,27 +86,6 @@ module.exports = function (grunt) {
             all: ['src/**/*.js']
         },
 
-        protractor: {
-            all: {
-                options: {
-                    configFile: 'test/e2e/conf.saucelabs.js',
-                    keepAlive: false, // If false, the grunt process stops when the test fails.
-                    noColor: false // If true, protractor will not use colors in its output.
-                }
-            },
-            local: {
-                options: {
-                    configFile: 'test/e2e/conf.local.js',
-                    keepAlive: false,
-                    noColor: false
-                }
-            }
-        },
-
-        protractor_webdriver: {
-            run: {}
-        },
-
         uglify: {
             dist: {
                 options: {
@@ -126,30 +103,9 @@ module.exports = function (grunt) {
         grunt.log.writeln('grunt dev to watch src then rebuild js/css/templates automatically');
     });
 
-    grunt.registerTask('sauce-connect', 'Launch Sauce Connect', function () {
-        var done = this.async();
-        require('sauce-connect-launcher')({
-            username: process.env.SAUCE_USERNAME,
-            accessKey: process.env.SAUCE_ACCESS_KEY,
-            verbose: true,
-            verboseDebugging: true
-        }, function (err, sauceConnectProcess) {
-            if (err) {
-                console.error(err.message);
-            } else {
-                console.log('sauce-connect tunnel opened successfully');
-                done();
-            }
-        });
-    });
-
     grunt.registerTask('dist', ['jshint:all', 'concat:dist', 'uglify:dist', 'ngtemplates:dist', 'less:dist']);
 
     grunt.registerTask('dev', ['dist', 'concurrent:dev']);
-
-    grunt.registerTask('test', ['connect:server', 'sauce-connect', 'protractor:all']);
-
-    grunt.registerTask('test-local', ['protractor_webdriver:run', 'connect:server', 'protractor:local']);
 
 
     return grunt;

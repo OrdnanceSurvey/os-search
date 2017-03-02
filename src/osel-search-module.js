@@ -1,3 +1,3 @@
 (function() {
-    angular.module('osel-search', ['rx', 'ngOrderObjectBy']);
+    angular.module('osel-search', ['rx', 'ngMaterial']);
 })();
