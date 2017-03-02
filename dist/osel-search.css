@@ -1,3 +1,29 @@
+.osel-search-wrapper md-tabs {
+  margin-top: 16px;
+  border-radius: 4px;
+  background-color: #f6f6f6;
+  border: 1px solid #e1e1e1;
+}
+.osel-search-wrapper md-tabs .md-tab.md-active {
+  color: #1169C9;
+}
+.osel-search-wrapper md-tabs md-ink-bar {
+  color: #1169C9;
+  background-color: #1169C9;
+}
+.osel-search-wrapper md-tabs md-tabs-canvas {
+  background-color: white;
+  border-radius: 4px 4px 0px 0px;
+}
+.osel-search-wrapper md-tabs md-tabs-wrapper {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+.osel-search-wrapper md-tabs .md-subheader {
+  background-color: inherit;
+}
+.osel-search-wrapper .md-tab {
+  text-transform: none;
+}
 input.osel-search[type=search] {
   padding: 10px;
   font-size: 18px;
@@ -7,29 +33,18 @@ input.osel-search[type=search] {
   -o-border-radius: 0px;
   border-radius: 0px;
 }
+input.osel-search[type=search]:focus {
+  border: 1px solid #1169C9;
+}
 .osel-search-results {
-  background-color: #ffffff;
-  display: table;
   padding: 10px;
-  margin-left: 1px;
-  position: absolute;
-  -webkit-box-shadow: 6px 0 20px 0 rgba(0, 0, 0, 0.19);
-  -moz-box-shadow: 6px 0 20px 0 rgba(0, 0, 0, 0.19);
-  -o-box-shadow: 6px 0 20px 0 rgba(0, 0, 0, 0.19);
-  box-shadow: 6px 0 20px 0 rgba(0, 0, 0, 0.19);
 }
-.osel-search-results > div {
-  display: inline-block;
-  vertical-align: top;
-  min-width: 150px;
-  max-width: 300px;
-}
-.osel-search-results > div + div {
-  margin-left: 20px;
+.osel-search-results + .osel-search-results {
+  margin-left: 10px;
 }
 .osel-search-result-header {
   font-weight: 700;
-  border-bottom: 1px solid #3091f6;
+  border-bottom: 1px solid #1169C9;
   padding: 5px;
 }
 .osel-search-result {
@@ -37,7 +52,7 @@ input.osel-search[type=search] {
 }
 .osel-search-result:hover,
 .osel-search-result:focus {
-  background-color: #3091f6;
+  background-color: #1169C9;
   color: white;
   cursor: pointer;
   outline: 0;
@@ -50,5 +65,8 @@ input.osel-search[type=search] {
 }
 .osel-search-result + .osel-search-result:hover,
 .osel-search-result + .osel-search-result:focus {
-  border-top: 1px solid #3091f6;
+  border-top: 1px solid #1169C9;
+}
+.osel-search-footer {
+  text-align: center;
 }
