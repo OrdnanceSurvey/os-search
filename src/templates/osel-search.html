@@ -8,16 +8,17 @@
     <md-tabs md-center-tabs="true" md-dynamic-height="" ng-show="searchInput.length > 2" class="md-whiteframe-1dp">
         <md-tab ng-repeat="column in options.providers"
                 label="{{column.title}} ({{aggregateLength(column)}})">
-            <div layout="row" layout-align="center start">
-                <md-list ng-repeat="provider in column.providers">
+            <div layout-xs="column" layout-align-xs="start stretch" layout="row" layout-align="center start">
+                <md-list ng-repeat="provider in column.providers" class="osel-search-results-column">
                     <md-subheader ng-if="::provider.title">{{provider.title}}</md-subheader>
-                    <md-list-item ng-repeat="result in searchResults[provider.id].results" ng-click="selectResult(result, provider.onSelect)">
+                    <md-list-item ng-repeat="result in searchResults[provider.id].results" ng-click="selectResult(result, provider.onSelect)" class="osel-search-result">
                         <div class="md-list-item-text">{{result.text}}</div>
                     </md-list-item>
                     <md-list-item ng-hide="searchResults[provider.id].results.length">
                         <div class="md-list-item-text" ng-show="searchResults[provider.id].inProgress">Loading...</div>
                         <div class="md-list-item-text" ng-hide="searchResults[provider.id].inProgress">No results found.</div>
                     </md-list-item>
+                    <md-divider hide-gt-xs ng-show="column.providers.length > 1"></md-divider>
                 </md-list>
             </div>
             <p class="osel-search-footer md-caption" ng-if="column.footer">{{::column.footer}}</p>

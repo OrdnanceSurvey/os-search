@@ -52,10 +52,10 @@ input.osel-search[type=search] {
     border: 1px solid @blue;
   }
 }
-.osel-search-results {
+.osel-search-results-column {
   padding: 10px;
 
-  + .osel-search-results {
+  + .osel-search-results-column {
     margin-left: 10px;
   }
 }
@@ -67,29 +67,26 @@ input.osel-search[type=search] {
 }
 
 .osel-search-result {
-  padding: 5px;
 
-  &:hover, &:focus {
-    background-color: @blue;
-    color: white;
-    cursor: pointer;
-    outline: 0;
-  }
-
-  > p {
-    margin: 0;
+  .md-button {
+    line-height: 20px;
   }
 
   + .osel-search-result {
     border-top: 1px dotted #dfdfdf;
-
-    &:hover, &:focus {
-       border-top: 1px solid @blue;
-     }
   }
 
 }
 
 .osel-search-footer {
   text-align: center;
+}
+
+@media (max-width: 599px) {
+  .osel-search-results-column {
+    padding: 0;
+    + .osel-search-results-column {
+      margin-left: 0;
+    }
+  }
 }
