@@ -9,7 +9,7 @@ dependencies:
   pre:
     -  if [[ "$(./node_modules/.bin/yarn --version)" != "${YARN_VER}" ]]; then curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version ${YARN_VER}; fi;
   override:
-    - yarn install --ignore-optional
+    - yarn install
     - npm run build
 
 deployment:
