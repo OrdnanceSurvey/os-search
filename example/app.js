@@ -73,9 +73,7 @@ app.controller('example-ctrl', ['$scope', function ($scope) {
             }
           }
         ]
-      }
-      ,
-
+      },
       {
         title: 'Surround',
         providers: [{
@@ -90,9 +88,9 @@ app.controller('example-ctrl', ['$scope', function ($scope) {
               text: '==' + upper + '=='
             }, {
               text: '===' + upper + '==='
-            },{
+            }, {
               text: '====' + upper + '====='
-            },{
+            }, {
               text: '=====' + upper + '====='
             }];
           },
@@ -118,9 +116,9 @@ app.controller('example-ctrl', ['$scope', function ($scope) {
                 text: '__' + upper + '__'
               }, {
                 text: '___' + upper + '___'
-              },{
+              }, {
                 text: '____' + upper + '_____'
-              },{
+              }, {
                 text: '_____' + upper + '_____'
               }];
             },
@@ -146,9 +144,9 @@ app.controller('example-ctrl', ['$scope', function ($scope) {
                 text: '##' + upper + '##'
               }, {
                 text: '###' + upper + '###'
-              },{
+              }, {
                 text: '####' + upper + '#####'
-              },{
+              }, {
                 text: '#####' + upper + '#####'
               }];
             },
@@ -163,8 +161,47 @@ app.controller('example-ctrl', ['$scope', function ($scope) {
             }
           }]
 
+      },
+      {
+        title: 'Repeated',
+        providers: [
+          makeSearchProvider(),
+          makeSearchProvider(),
+          makeSearchProvider(),
+          makeSearchProvider()
+        ]
       }
+
     ]
   };
+
+  var random_id = 1;
+  function makeSearchProvider() {
+    var myId = 'RANDOM_' + random_id++;
+    return {
+      id: myId,
+      fn: function (term) {
+        var upper = term;
+        // return an array to illustrate how transformResponse can be used
+        return [
+          { text: term},
+          { text: term + ' ' + term},
+          { text: term + ' ' + term + ' ' + term},
+          { text: term + ' ' + term + ' ' + term + ' ' + term},
+          { text: term + ' ' + term + ' ' + term + ' ' + term + ' ' + term}
+          ];
+      },
+      transformResponse: function (response) {
+        // return an object with a results property containing the array
+        return {
+          results: response
+        };
+      },
+      onSelect: function (result, hideSearch) {
+        console.log('selected a ' + myId+ ' result', result);
+      }
+    };
+  }
+
 
 }]);
