@@ -1,5 +1,5 @@
 ## osel-search 
-AngularJS implementation of a flexible search box, by OS Elements 
+AngularJS implementation of a flexible search box, by OS Elements
 
 Tests: [![Circle CI](https://circleci.com/gh/OrdnanceSurvey/os-search/tree/master.svg?style=svg)](https://circleci.com/gh/OrdnanceSurvey/os-search/tree/master)
 
