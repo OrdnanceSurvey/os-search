@@ -9,7 +9,7 @@
         <md-tab ng-repeat="column in options.providers"
                 label="{{column.title}} ({{aggregateLength(column)}})">
             <div layout-xs="column" layout-align-xs="start stretch" layout="row" layout-align="center start">
-                <md-list ng-repeat="provider in column.providers" class="osel-search-results-column">
+                <md-list ng-repeat="provider in column.providers" class="osel-search-results-column" flex>
                     <md-subheader ng-if="::provider.title">{{provider.title}}</md-subheader>
                     <md-list-item ng-repeat="result in searchResults[provider.id].results" ng-click="selectResult(result, provider.onSelect)" class="osel-search-result">
                         <div class="md-list-item-text">{{result.text}}</div>

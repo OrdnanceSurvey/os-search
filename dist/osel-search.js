@@ -1,5 +1,5 @@
 /**
- * @license osel-search - v0.0.4-republshed - 13-03-2017
+ * @license osel-search - v0.0.4-republshed - 14-03-2017
  * (c) 2015 Ordnance Survey Limited
  * License: MIT
  */

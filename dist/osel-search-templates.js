@@ -13,7 +13,7 @@ angular.module('osel-search').run(['$templateCache', function($templateCache) {
     "        <md-tab ng-repeat=\"column in options.providers\"\n" +
     "                label=\"{{column.title}} ({{aggregateLength(column)}})\">\n" +
     "            <div layout-xs=\"column\" layout-align-xs=\"start stretch\" layout=\"row\" layout-align=\"center start\">\n" +
-    "                <md-list ng-repeat=\"provider in column.providers\" class=\"osel-search-results-column\">\n" +
+    "                <md-list ng-repeat=\"provider in column.providers\" class=\"osel-search-results-column\" flex>\n" +
     "                    <md-subheader ng-if=\"::provider.title\">{{provider.title}}</md-subheader>\n" +
     "                    <md-list-item ng-repeat=\"result in searchResults[provider.id].results\" ng-click=\"selectResult(result, provider.onSelect)\" class=\"osel-search-result\">\n" +
     "                        <div class=\"md-list-item-text\">{{result.text}}</div>\n" +
