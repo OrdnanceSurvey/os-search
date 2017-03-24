@@ -1,5 +1,5 @@
 /**
- * @license osel-search - v0.0.4-republshed - 14-03-2017
+ * @license osel-search - v0.0.4-republshed - 22-03-2017
  * (c) 2015 Ordnance Survey Limited
  * License: MIT
  */
@@ -31,6 +31,8 @@
         }, []);
         $scope.options.placeholder = $scope.options.hasOwnProperty('placeholder') ? $scope.options.placeholder : 'Start typing to search';
         $scope.searchResults = {};
+
+        $scope.options.searchInputNumber = $scope.options.hasOwnProperty('searchInputNumber') ? $scope.options.searchInputNumber : 2;
 
         // turn $scope.allProviders into a hashmap, with provider.id as the keys
         $scope.searchProviders = $scope.allProviders.reduce(function (providerHashMap, provider) {
@@ -176,6 +178,10 @@
             cb.call(null, result);
           }
           $scope.searchInput = result.text;
+        };
+
+        $scope.checkToShowResults = function (searchInput) {
+            return searchInput > $scope.options.searchInputNumber;
         };
 
         $scope.aggregateLength = function aggregateLength(column) {

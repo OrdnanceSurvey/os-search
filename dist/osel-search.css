@@ -24,6 +24,10 @@
 .osel-search-wrapper .md-tab {
   text-transform: none;
 }
+.osel-tab-container {
+  height: 350px;
+  overflow-y: auto;
+}
 input.osel-search[type=search] {
   padding: 10px;
   font-size: 18px;
