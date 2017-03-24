@@ -24,6 +24,8 @@
         $scope.options.placeholder = $scope.options.hasOwnProperty('placeholder') ? $scope.options.placeholder : 'Start typing to search';
         $scope.searchResults = {};
 
+        $scope.options.searchInputNumber = $scope.options.hasOwnProperty('searchInputNumber') ? $scope.options.searchInputNumber : 2;
+
         // turn $scope.allProviders into a hashmap, with provider.id as the keys
         $scope.searchProviders = $scope.allProviders.reduce(function (providerHashMap, provider) {
           providerHashMap[provider.id] = provider;
@@ -168,6 +170,10 @@
             cb.call(null, result);
           }
           $scope.searchInput = result.text;
+        };
+
+        $scope.checkToShowResults = function (searchInput) {
+            return searchInput > $scope.options.searchInputNumber;
         };
 
         $scope.aggregateLength = function aggregateLength(column) {
