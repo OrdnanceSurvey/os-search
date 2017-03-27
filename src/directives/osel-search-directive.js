@@ -108,7 +108,7 @@
           });
 
           // only search on 3+ characters
-          return term && term.length && term.length > 2;
+          return term && term.length && term.length > $scope.options.searchInputNumber;
         }).subscribe(function (term) {
 
           var observables = $scope.allProviders.map(function (provider) {
