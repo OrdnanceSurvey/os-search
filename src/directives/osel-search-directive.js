@@ -33,6 +33,18 @@
         }, {});
         // ---------- variables setup end -----------
 
+          var observableWithPreTransformResult = function(preTransformResult, term) {
+              return rx.Observable.create(function (observer) {
+                  try {
+                      var result = preTransformResult.call(this, term);
+                          observer.onNext(result);
+                          observer.onCompleted();
+                  } catch (e) {
+                      observer.onError(e);
+                  }
+              });
+          };
+
         // turn search provider JSON into an rx.Observable, with a URL including the search term
         var observableWithAJAXConfig = function observableWithAJAXConfig(provider, term) {
           var url = provider.url;
@@ -89,7 +101,15 @@
           if (provider.hasOwnProperty('fn')) {
             return observableFromFn(provider.fn, term);
           } else { // else assume provider is 'AJAX' type
-            return observableWithAJAXConfig(provider, term);
+              if (provider.hasOwnProperty('preTransformResult')) {
+                  return observableWithPreTransformResult(provider.preTransformResult, term)
+                      .flatMap(function (x) {
+                          return observableWithAJAXConfig(provider, x);
+                      });
+              } else {
+                  return observableWithAJAXConfig(provider, term);
+              }
+
           }
         };
 

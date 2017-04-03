@@ -1,5 +1,5 @@
 /**
- * @license osel-search - v0.0.4-republshed - 22-03-2017
+ * @license osel-search - v0.0.4-republshed - 03-04-2017
  * (c) 2015 Ordnance Survey Limited
  * License: MIT
  */
@@ -40,6 +40,18 @@
           return providerHashMap;
         }, {});
         // ---------- variables setup end -----------
+
+          var observableWithPreTransformResult = function(preTransformResult, term) {
+              return rx.Observable.create(function (observer) {
+                  try {
+                      var result = preTransformResult.call(this, term);
+                          observer.onNext(result);
+                          observer.onCompleted();
+                  } catch (e) {
+                      observer.onError(e);
+                  }
+              });
+          };
 
         // turn search provider JSON into an rx.Observable, with a URL including the search term
         var observableWithAJAXConfig = function observableWithAJAXConfig(provider, term) {
@@ -97,7 +109,15 @@
           if (provider.hasOwnProperty('fn')) {
             return observableFromFn(provider.fn, term);
           } else { // else assume provider is 'AJAX' type
-            return observableWithAJAXConfig(provider, term);
+              if (provider.hasOwnProperty('preTransformResult')) {
+                  return observableWithPreTransformResult(provider.preTransformResult, term)
+                      .flatMap(function (x) {
+                          return observableWithAJAXConfig(provider, x);
+                      });
+              } else {
+                  return observableWithAJAXConfig(provider, term);
+              }
+
           }
         };
 
@@ -116,7 +136,7 @@
           });
 
           // only search on 3+ characters
-          return term && term.length && term.length > 2;
+          return term && term.length && term.length > $scope.options.searchInputNumber;
         }).subscribe(function (term) {
 
           var observables = $scope.allProviders.map(function (provider) {
