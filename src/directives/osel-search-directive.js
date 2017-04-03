@@ -38,6 +38,7 @@
                   try {
                       var result = preTransformResult.call(this, term);
                           observer.onNext(result);
+                          observer.onCompleted();
                   } catch (e) {
                       observer.onError(e);
                   }

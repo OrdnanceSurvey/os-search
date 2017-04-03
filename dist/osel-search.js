@@ -1,5 +1,5 @@
 /**
- * @license osel-search - v0.0.4-republshed - 31-03-2017
+ * @license osel-search - v0.0.4-republshed - 03-04-2017
  * (c) 2015 Ordnance Survey Limited
  * License: MIT
  */
@@ -46,6 +46,7 @@
                   try {
                       var result = preTransformResult.call(this, term);
                           observer.onNext(result);
+                          observer.onCompleted();
                   } catch (e) {
                       observer.onError(e);
                   }
